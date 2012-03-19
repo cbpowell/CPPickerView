@@ -67,6 +67,10 @@ NSInteger *storedSelectedIndex = [[AnArrayOfStoredStuff objectAtIndex:indexPath.
 return cell;
 ```
 
+## Todo
+- Use UIImage's  `stretchableImageWithLeftCapWidth:` method instead of 3 UIImageViews for the glass
+- Allow left/right item from center to "peek" into view, to indicate there are other options
+
 ## About
 
 Charles Powell
