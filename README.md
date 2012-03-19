@@ -54,7 +54,7 @@ cell.dataSource = self;
 cell.delegate = self;
 ```
 
-And implement CPPickerViewCellDataSource and CPPickerViewCellDelegate per the protocols.
+And implement CPPickerViewCellDataSource and CPPickerViewCellDelegate per the protocols. In the included example the TableViewController (i.e. `self`) is set up as the data source and delegate for all cells. The data source/delegate methods for `CPPickerViewCell` convert the normal `CPPickerView` data source/delegate methods to refer to the requests for data by NSIndexPath rather than the CPPickerView object (to match the typical way cells are tracked).
 
 Finally, reload the cell (aka the CPPickerView, the items in the picker will be requested again) and then reconfigure it with any specific settings for the given row. Then return the cell.
 
