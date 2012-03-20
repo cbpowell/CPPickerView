@@ -54,17 +54,22 @@ cell.dataSource = self;
 cell.delegate = self;
 ```
 
-And implement CPPickerViewCellDataSource and CPPickerViewCellDelegate per the protocols.
+And implement CPPickerViewCellDataSource and CPPickerViewCellDelegate per the protocols. In the included example the TableViewController (i.e. `self`) is set up as the data source and delegate for all cells. The data source/delegate methods for `CPPickerViewCell` convert the normal `CPPickerView` data source/delegate methods to refer to the requests for data by NSIndexPath rather than the CPPickerView object (to match the typical way cells are tracked).
 
-Finally, reload the cell (aka the CPPickerView, the items in the picker will be requested again) and then reconfigure it with any specific settings for the given row. Then return the cell.
+Finally, reload the cell (aka the CPPickerView, the items in the picker will be requested again) and then reconfigure it with any specific settings for the given row if you're recalling some previously stored settings. Then return the cell.
 
 ```objective-c
 [cell reloadData];
 // Reconfigure
 cell.showGlass = YES;
-[cell selectItemAtIndex:(NSIndex)storedSelectedIndex animated:NO];
+NSInteger *storedSelectedIndex = [[AnArrayOfStoredStuff objectAtIndex:indexPath.row] intValue];
+[cell selectItemAtIndex:storedSelectedIndex animated:NO];  //Unanimated, because this should be immediate
 return cell;
 ```
+
+## Todo
+- Use UIImage's  `stretchableImageWithLeftCapWidth:` method instead of 3 UIImageViews for the glass
+- Allow left/right item from center to "peek" into view, to indicate there are other options
 
 ## About
 
