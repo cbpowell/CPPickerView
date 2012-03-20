@@ -1,6 +1,6 @@
 ## Description
 
-A custom, configurable horizontal UIPickerView controller.
+A custom, configurable, horizontal version of UIPickerView.
 
 Also included is CPPickerViewCell, a UITableViewCell sublcass that adds a CPPickerView to the right side of the cell. This cell was envisioned for a settings-type view, allowing a multi-option setting to be handled in a single table row (whereas normally it would require a disclosure or multiple rows).
 
