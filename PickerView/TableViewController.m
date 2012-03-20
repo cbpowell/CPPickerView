@@ -31,6 +31,7 @@
 {
     [super viewDidLoad];
     
+    self.title = @"Table Usage";
     self.settingsStorage = [NSMutableArray arrayWithObjects:[NSMutableArray arrayWithObject:[NSNumber numberWithInt:0]], [NSMutableArray arrayWithObject:[NSNumber numberWithInt:1]], nil];
 }
 

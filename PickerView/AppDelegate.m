@@ -3,24 +3,39 @@
 //  PickerView
 //
 //  Created by Fraerman Arkady on 24.11.11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Modified by Charles Powell on 3/19/12.
 //
 
 #import "AppDelegate.h"
 
+#import "ViewController.h"
 #import "TableViewController.h"
 
 @implementation AppDelegate
 
 @synthesize window = _window;
 @synthesize viewController = _viewController;
+@synthesize tableViewController = _tableViewController;
+@synthesize normalViewController = _normalViewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    self.viewController = [[TableViewController alloc] initWithNibName:@"TableViewController" bundle:nil];
-    self.window.rootViewController = self.viewController;
+    
+    self.tableViewController = [[TableViewController alloc] initWithNibName:@"TableViewController" bundle:nil];
+    self.normalViewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
+    
+    self.tableViewController.title = @"Table Usage";
+    self.normalViewController.title = @"View Usage";
+    
+    self.viewController = [[UITabBarController alloc] init];
+    NSMutableArray *controllers = [[NSMutableArray alloc] initWithCapacity:2];
+    [controllers addObject:self.tableViewController];
+    [controllers addObject:self.normalViewController];
+    
+    self.viewController.viewControllers = controllers;
+    
+    [self.window addSubview:self.viewController.view];
     [self.window makeKeyAndVisible];
     return YES;
 }

@@ -23,19 +23,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
     
+    self.title = @"View Usage";
+	
     daysData = [[NSArray alloc] initWithObjects:@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday", nil];
     
-    defaultPickerView = [[CPPickerView alloc] initWithFrame:CGRectMake(30.0, 30.0, 150, 40)];
+    defaultPickerView = [[CPPickerView alloc] initWithFrame:CGRectMake(85, 30.0, 150, 40)];
     defaultPickerView.backgroundColor = [UIColor whiteColor];
     defaultPickerView.dataSource = self;
     defaultPickerView.delegate = self;
     [defaultPickerView reloadData];
     [self.view addSubview:defaultPickerView];
 }
-
-
 
 
 #pragma mark - CPPickerViewDataSource
