@@ -32,50 +32,6 @@
 //  CPPickerView.m
 //
 
-
-@interface CPPickerGlassView : UIView
-
-@property (nonatomic, unsafe_unretained) UIImageView *leftBorder;
-@property (nonatomic, unsafe_unretained) UIImageView *rightBorder;
-@property (nonatomic, unsafe_unretained) UIImageView *center;
-
-@end
-
-@implementation CPPickerGlassView
-
-@synthesize leftBorder, rightBorder, center;
-
-- (id)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
-        
-        self.userInteractionEnabled = NO;
-        
-        UIImageView *newLeftBorder = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"glassLeft"]];
-        newLeftBorder.frame = CGRectMake(0.0, 0.0, 1, self.frame.size.height);
-        [self addSubview:newLeftBorder];
-        self.leftBorder = newLeftBorder;
-        
-        UIImageView *newRightBorder = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"glassRight"]];
-        newRightBorder.frame = CGRectMake(self.frame.size.width - 1, 0.0, 1, self.frame.size.height);
-        [self addSubview:newRightBorder];
-        self.rightBorder = newRightBorder;
-        
-        UIImageView *newCenter = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"glassCenter"]];
-        newCenter.frame = CGRectMake(1.0, 0.0, self.frame.size.width - 2, self.frame.size.height);
-        [self addSubview:newCenter];
-        self.center = newCenter;
-    }
-    
-    return self;
-}
-
-- (void)layoutSubviews {
-    self.leftBorder.frame = CGRectMake(0.0, 0.0, 1, self.frame.size.height);
-    self.rightBorder.frame = CGRectMake(self.frame.size.width - 1, 0.0, 1, self.frame.size.height);
-    self.center.frame = CGRectMake(1.0, 0.0, self.frame.size.width - 2, self.frame.size.height);
-}
-@end
-
 #import "CPPickerView.h"
 
 @implementation CPPickerView
@@ -194,9 +150,6 @@
             }
             glassView = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width / 2 - 30, 0.0, 60, self.frame.size.height)];
             glassView.image = glassImage;
-            /*
-            glassView = (UIView *)[[CPPickerGlassView alloc] initWithFrame:CGRectMake(self.frame.size.width / 2 - 30, 0.0, 60, self.frame.size.height)];
-             */
             [self addSubview:glassView];
         } else {
             [glassView removeFromSuperview];
@@ -370,5 +323,54 @@
     [self determineCurrentItem];
 }
 
+
+
+/*
+ * Retained here in case someone wants the flexibility this affords
+ *
+ 
+@interface CPPickerGlassView : UIView
+
+@property (nonatomic, unsafe_unretained) UIImageView *leftBorder;
+@property (nonatomic, unsafe_unretained) UIImageView *rightBorder;
+@property (nonatomic, unsafe_unretained) UIImageView *center;
+
+@end
+
+@implementation CPPickerGlassView
+
+@synthesize leftBorder, rightBorder, center;
+
+- (id)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        
+        self.userInteractionEnabled = NO;
+        
+        UIImageView *newLeftBorder = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"glassLeft"]];
+        newLeftBorder.frame = CGRectMake(0.0, 0.0, 1, self.frame.size.height);
+        [self addSubview:newLeftBorder];
+        self.leftBorder = newLeftBorder;
+        
+        UIImageView *newRightBorder = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"glassRight"]];
+        newRightBorder.frame = CGRectMake(self.frame.size.width - 1, 0.0, 1, self.frame.size.height);
+        [self addSubview:newRightBorder];
+        self.rightBorder = newRightBorder;
+        
+        UIImageView *newCenter = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"glassCenter"]];
+        newCenter.frame = CGRectMake(1.0, 0.0, self.frame.size.width - 2, self.frame.size.height);
+        [self addSubview:newCenter];
+        self.center = newCenter;
+    }
+    
+    return self;
+}
+
+- (void)layoutSubviews {
+    self.leftBorder.frame = CGRectMake(0.0, 0.0, 1, self.frame.size.height);
+    self.rightBorder.frame = CGRectMake(self.frame.size.width - 1, 0.0, 1, self.frame.size.height);
+    self.center.frame = CGRectMake(1.0, 0.0, self.frame.size.width - 2, self.frame.size.height);
+}
+@end
+*/
 
 @end
