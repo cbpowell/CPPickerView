@@ -44,7 +44,7 @@
     __unsafe_unretained id <CPPickerViewDataSource> dataSource;
     __unsafe_unretained id <CPPickerViewDelegate> delegate;
     UIScrollView *contentView;
-    UIView *glassView;
+    UIImageView *glassView;
     
     int currentIndex;
     int itemCount; 

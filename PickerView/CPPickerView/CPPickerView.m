@@ -186,7 +186,17 @@
 - (void)setShowGlass:(BOOL)doShowGlass {
     if (showGlass != doShowGlass) {
         if ([glassView superview] == nil) {
+            UIImage *glassImage = [UIImage imageNamed:@"stretchableGlass"];
+            if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 5.0) {
+                glassImage = [glassImage resizableImageWithCapInsets:UIEdgeInsetsMake(0, 1, 0, 1)];
+            } else {
+                glassImage = [glassImage stretchableImageWithLeftCapWidth:1 topCapHeight:0];
+            }
+            glassView = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width / 2 - 30, 0.0, 60, self.frame.size.height)];
+            glassView.image = glassImage;
+            /*
             glassView = (UIView *)[[CPPickerGlassView alloc] initWithFrame:CGRectMake(self.frame.size.width / 2 - 30, 0.0, 60, self.frame.size.height)];
+             */
             [self addSubview:glassView];
         } else {
             [glassView removeFromSuperview];
