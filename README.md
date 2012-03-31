@@ -20,7 +20,7 @@ To customize the appearance, replace the following images with your own:
 Several appearance options are settable via properties:
 
  * `BOOL showGlass` - defines whether or not to show the "glass" overlay over the selected item.
- * `UIEdgeInsets peekInset` - defines the amount the item to the left and right of the currently selected item "peek" into view. This can be used as an indication to the user that there are other items, if desired. _NOTE_: You most likely want to leave the `top` and `bottom` inset values at 0, and adjust the `left` and `right` values.
+ * `UIEdgeInsets peekInset` - defines the amount the item to the left and right of the currently selected item "peek" into view. This can be used as an indication to the user that there are other items, if desired. _NOTE_: You most likely want to leave the `top` and `bottom` inset values at 0, and adjust the `left` and `right` values. Larger inset values mean more peek.
 
 
 ### Standard Usage
