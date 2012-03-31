@@ -84,7 +84,10 @@
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
     
-    if (section == 1) cell.showGlass = YES;
+    if (section == 1) {
+        cell.showGlass = YES;
+        cell.pickerInset = UIEdgeInsetsMake(0, 15, 0, 15);
+    }
     
     [cell selectItemAtIndex:[[[self.settingsStorage objectAtIndex:section] objectAtIndex:row] intValue] animated:NO];
     

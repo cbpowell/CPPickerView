@@ -40,9 +40,10 @@
 
 @synthesize dataSource;
 @synthesize delegate;
+@synthesize contentView, glassView;
 @synthesize selectedItem = currentIndex;
 @synthesize itemFont = _itemFont;
-@synthesize showGlass;
+@synthesize showGlass, pickerInset;
 
 
 
@@ -87,12 +88,13 @@
         [self setup];
         
         // content
-        contentView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, frame.size.width, frame.size.height)];
-        contentView.showsHorizontalScrollIndicator = NO;
-        contentView.showsVerticalScrollIndicator = NO;
-        contentView.pagingEnabled = YES;
-        contentView.delegate = self;
-        [self addSubview:contentView];
+        self.contentView = [[UIScrollView alloc] initWithFrame:UIEdgeInsetsInsetRect(self.bounds, self.pickerInset)]; //CGRectMake(0.0, 0.0, frame.size.width - self.pickerContainerInsets - , frame.size.height)];
+        self.contentView.clipsToBounds = NO;
+        self.contentView.showsHorizontalScrollIndicator = NO;
+        self.contentView.showsVerticalScrollIndicator = NO;
+        self.contentView.pagingEnabled = YES;
+        self.contentView.delegate = self;
+        [self addSubview:self.contentView];
         
         // shadows
         UIImageView *shadows = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"shadowOverlay"]];
@@ -110,11 +112,11 @@
 
 
 
-
 - (void)setup
 {
     _itemFont = [UIFont boldSystemFontOfSize:24.0];
     showGlass = NO;
+    pickerInset = UIEdgeInsetsMake(0, 0, 0, 0);
     currentIndex = 0;
     itemCount = 0;
     visibleViews = [[NSMutableSet alloc] init];
@@ -141,22 +143,31 @@
 
 - (void)setShowGlass:(BOOL)doShowGlass {
     if (showGlass != doShowGlass) {
-        if ([glassView superview] == nil) {
+        if ([self.glassView superview] == nil) {
             UIImage *glassImage = [UIImage imageNamed:@"stretchableGlass"];
             if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 5.0) {
                 glassImage = [glassImage resizableImageWithCapInsets:UIEdgeInsetsMake(0, 1, 0, 1)];
             } else {
                 glassImage = [glassImage stretchableImageWithLeftCapWidth:1 topCapHeight:0];
             }
-            glassView = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width / 2 - 30, 0.0, 60, self.frame.size.height)];
-            glassView.image = glassImage;
-            [self addSubview:glassView];
+            self.glassView = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width / 2 - 30, 0.0, 60, self.frame.size.height)];
+            self.glassView.image = glassImage;
+            [self addSubview:self.glassView];
         } else {
-            [glassView removeFromSuperview];
-            glassView = nil;
+            [self.glassView removeFromSuperview];
+            self.glassView = nil;
         }
         
         showGlass = doShowGlass;
+    }
+}
+
+- (void)setPickerInset:(UIEdgeInsets)aPickerInset {
+    if (!UIEdgeInsetsEqualToEdgeInsets(pickerInset, aPickerInset)) {
+        pickerInset = aPickerInset;
+        self.contentView.frame = UIEdgeInsetsInsetRect(self.bounds, self.pickerInset);
+        [self reloadData];
+        [self.contentView setNeedsDisplay];
     }
 }
 
@@ -185,7 +196,7 @@
     }
     
     [self scrollToIndex:0 animated:NO];
-    contentView.contentSize = CGSizeMake(contentView.frame.size.width * itemCount, contentView.frame.size.height);  
+    self.contentView.contentSize = CGSizeMake(self.contentView.frame.size.width * itemCount, self.contentView.frame.size.height);  
     [self tileViews];
 }
 
@@ -194,11 +205,9 @@
 
 - (void)determineCurrentItem
 {
-    CGFloat delta = contentView.contentOffset.x;
-    int position = round(delta / contentView.frame.size.width);
+    CGFloat delta = self.contentView.contentOffset.x;
+    int position = round(delta / self.contentView.frame.size.width);
     currentIndex = position;
-    //[contentView setContentOffset:CGPointMake(contentView.frame.size.width * position, 0.0) animated:YES];
-    //[self scrollToIndex:position animated:YES];
     if ([delegate respondsToSelector:@selector(pickerView:didSelectItem:)]) {
         [delegate pickerView:self didSelectItem:currentIndex];
     }
@@ -209,7 +218,7 @@
 }
 
 - (void)scrollToIndex:(NSInteger)index animated:(BOOL)animated {
-    [contentView setContentOffset:CGPointMake(contentView.frame.size.width * index, 0.0) animated:animated];
+    [self.contentView setContentOffset:CGPointMake(self.contentView.frame.size.width * index, 0.0) animated:animated];
 }
 
 
@@ -233,7 +242,7 @@
 	BOOL foundPage = NO;
     for (UIView *aView in visibleViews) 
 	{
-        int viewIndex = aView.frame.origin.x / contentView.frame.size.width;
+        int viewIndex = aView.frame.origin.x / self.contentView.frame.size.width;
         if (viewIndex == index) 
 		{
             foundPage = YES;
@@ -249,8 +258,8 @@
 - (void)tileViews
 {
     // Calculate which pages are visible
-    CGRect visibleBounds = contentView.bounds;
-    int currentViewIndex = floorf(contentView.contentOffset.x / contentView.frame.size.width);
+    CGRect visibleBounds = self.contentView.bounds;
+    int currentViewIndex = floorf(self.contentView.contentOffset.x / self.contentView.frame.size.width);
     int firstNeededViewIndex = currentViewIndex - 2; 
     int lastNeededViewIndex  = currentViewIndex + 2;
     firstNeededViewIndex = MAX(firstNeededViewIndex, 0);
@@ -278,7 +287,7 @@
             
 			if (label == nil)
             {
-				label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, contentView.frame.size.width, contentView.frame.size.height)];
+				label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height)];
                 label.backgroundColor = [UIColor clearColor];
                 label.font = self.itemFont;
                 label.textColor = RGBACOLOR(0.0, 0.0, 0.0, 0.75);
@@ -286,7 +295,7 @@
             }
             
             [self configureView:label atIndex:index];
-            [contentView addSubview:label];
+            [self.contentView addSubview:label];
             [visibleViews addObject:label];
         }
     }
@@ -304,7 +313,7 @@
     }
     
     CGRect frame = label.frame;
-    frame.origin.x = contentView.frame.size.width * index;// + 78.0;
+    frame.origin.x = self.contentView.frame.size.width * index;// + 78.0;
     label.frame = frame;
 }
 

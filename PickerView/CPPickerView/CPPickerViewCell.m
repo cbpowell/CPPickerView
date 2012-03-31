@@ -44,7 +44,7 @@
 
 @synthesize pickerView;
 @synthesize dataSource, delegate;
-@synthesize selectedItem, showGlass;
+@synthesize selectedItem, showGlass, pickerInset;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -87,6 +87,18 @@
 
 - (void)setShowGlass:(BOOL)doShowGlass {
     self.pickerView.showGlass = doShowGlass;
+}
+
+- (BOOL)showGlass {
+    return self.pickerView.showGlass;
+}
+
+- (void)setPickerInset:(UIEdgeInsets)aPickerInset {
+    self.pickerView.pickerInset = aPickerInset;
+}
+
+- (UIEdgeInsets)pickerContainerInsets {
+    return self.pickerView.pickerInset;
 }
 
 #pragma mark CPPickerView Delegate
