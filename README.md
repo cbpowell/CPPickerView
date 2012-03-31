@@ -26,10 +26,10 @@ Several appearance options are settable via properties:
 
 
 ### Standard Usage
-Create AFPickerView instance and customize it
+Create a CPPickerView instance and configure it:
 
 ```objective-c
-pickerView = [[AFPickerView alloc] initWithFrame:CGRectMake(30.0, 250.0, 126.0, 197.0)];
+pickerView = [[CPPickerView alloc] initWithFrame:CGRectMake(30.0, 250.0, 126.0, 197.0)];
 pickerView.rowFont = [UIFont boldSystemFontOfSize:19.0];
 pickerView.rowIndent = 10.0;
 pickerView.showGlass = YES;
