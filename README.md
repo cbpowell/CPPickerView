@@ -9,15 +9,21 @@ If you're interested in a vertical custom UIPickerView controller, check out [AF
 ![CPPickerView screenshot](http://cbpowell.github.com/CPPickerView/screenshot.png)
 ## Usage
 
-### Normal
+### General
 
 To customize the appearance, replace the following images with your own:
 
  * wheelBackground.png
- * wheelBorder.png
- * glassLeft.png, glassRight.png, glassCenter.png
+ * stretchableGlass.png
  * shadowOverlay.png
 
+Several appearance options are settable via properties:
+
+ * `BOOL showGlass` - defines whether or not to show the "glass" overlay over the selected item.
+ * `UIEdgeInsets peekInset` - defines the amount the item to the left and right of the currently selected item "peek" into view. This can be used as an indication to the user that there are other items, if desired. _NOTE_: You most likely want to leave the `top` and `bottom` inset values at 0, and adjust the `left` and `right` values.
+
+
+### Standard Usage
 Create AFPickerView instance and customize it
 
 ```objective-c
@@ -35,9 +41,9 @@ pickerView.delegate = self;
 [pickerView reloadData];
 ```
 
-Implement CPPickerViewDataSource and CPPickerViewDelegate
+Then implement CPPickerViewDataSource and CPPickerViewDelegate in your controller.
 
-### CPPickerViewCell
+### CPPickerViewCell Usage
 
 Use CPPickerViewCell like a normal UITableViewCell. Inside `tableView:cellForRowAtIndexPath:`, dequeue or create the cell:
 
@@ -55,7 +61,9 @@ cell.dataSource = self;
 cell.delegate = self;
 ```
 
-And implement CPPickerViewCellDataSource and CPPickerViewCellDelegate per the protocols. In the included example the TableViewController (i.e. `self`) is set up as the data source and delegate for all cells. The data source/delegate methods for `CPPickerViewCell` convert the normal `CPPickerView` data source/delegate methods to refer to the requests for data by NSIndexPath rather than the CPPickerView object (to match the typical way cells are tracked).
+And implement CPPickerViewCellDataSource and CPPickerViewCellDelegate per the protocols. In the included example the TableViewController (i.e. `self`) is set up as the data source and delegate for all cells.
+
+The data source/delegate methods for `CPPickerViewCell` convert the normal `CPPickerView` data source/delegate methods to refer to the requests for data by NSIndexPath rather than the CPPickerView object (to match the typical way table cells are identified).
 
 Finally, reload the cell (aka the CPPickerView, the items in the picker will be requested again) and then reconfigure it with any specific settings for the given row if you're recalling some previously stored settings. Then return the cell.
 
@@ -63,13 +71,14 @@ Finally, reload the cell (aka the CPPickerView, the items in the picker will be 
 [cell reloadData];
 // Reconfigure
 cell.showGlass = YES;
+cell.peekInset = UIEdgeInsetsMake(0, 18, 0, 18);
 NSInteger *storedSelectedIndex = [[AnArrayOfStoredStuff objectAtIndex:indexPath.row] intValue];
 [cell selectItemAtIndex:storedSelectedIndex animated:NO];  //Unanimated, because this should be immediate
 return cell;
 ```
 
 ## Todo
-- Allow left/right item from center to "peek" into view, to indicate there are other options
+- Any ideas?
 
 ## About
 

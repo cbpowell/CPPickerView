@@ -34,19 +34,23 @@
 
 #import "CPPickerView.h"
 
-@implementation CPPickerView
+@interface CPPickerView ()
 
-#pragma mark - Synthesization
+@property (nonatomic, strong) UIImage *backgroundImage;
+@property (nonatomic, strong) UIImage *glassImage;
+@property (nonatomic, strong) UIImage *shadowImage;
+
+@end
+
+@implementation CPPickerView
 
 @synthesize dataSource;
 @synthesize delegate;
-@synthesize contentView, glassView;
+@synthesize contentView;
+@synthesize glassImage, backgroundImage, shadowImage;
 @synthesize selectedItem = currentIndex;
 @synthesize itemFont = _itemFont;
-@synthesize showGlass, pickerInset;
-
-
-
+@synthesize showGlass, peekInset;
 
 #pragma mark - Custom getters/setters
 
@@ -88,7 +92,7 @@
         [self setup];
         
         // content
-        self.contentView = [[UIScrollView alloc] initWithFrame:UIEdgeInsetsInsetRect(self.bounds, self.pickerInset)]; //CGRectMake(0.0, 0.0, frame.size.width - self.pickerContainerInsets - , frame.size.height)];
+        self.contentView = [[UIScrollView alloc] initWithFrame:UIEdgeInsetsInsetRect(self.bounds, self.peekInset)]; //CGRectMake(0.0, 0.0, frame.size.width - self.pickerContainerInsets - , frame.size.height)];
         self.contentView.clipsToBounds = NO;
         self.contentView.showsHorizontalScrollIndicator = NO;
         self.contentView.showsVerticalScrollIndicator = NO;
@@ -96,10 +100,15 @@
         self.contentView.delegate = self;
         [self addSubview:self.contentView];
         
-        // shadows
-        UIImageView *shadows = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"shadowOverlay"]];
-        shadows.frame = CGRectMake(0.0, 0.0, frame.size.width, frame.size.height);
-        [self addSubview:shadows];
+        // Images
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 5.0) {
+            self.backgroundImage = [[UIImage imageNamed:@"wheelBackground"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 0, 5, 0)];
+            self.glassImage = [[UIImage imageNamed:@"stretchableGlass"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 1, 0, 1)];
+        } else {
+            self.backgroundImage = [[UIImage imageNamed:@"wheelBackground"] stretchableImageWithLeftCapWidth:0 topCapHeight:5];
+            self.glassImage = [[UIImage imageNamed:@"stretchableGlass"]  stretchableImageWithLeftCapWidth:1 topCapHeight:0];
+        }
+        self.shadowImage = [UIImage imageNamed:@"shadowOverlay"];
         
         // Rounded borders
         self.layer.cornerRadius = 3.0f;
@@ -116,7 +125,7 @@
 {
     _itemFont = [UIFont boldSystemFontOfSize:24.0];
     showGlass = NO;
-    pickerInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    peekInset = UIEdgeInsetsMake(0, 0, 0, 0);
     currentIndex = 0;
     itemCount = 0;
     visibleViews = [[NSMutableSet alloc] init];
@@ -126,46 +135,31 @@
 - (void)drawRect:(CGRect)rect {
     
     // Draw background
-    UIImage *background = [UIImage imageNamed:@"wheelBackground"];
-    [background drawInRect:CGRectMake(0, 0, rect.size.width, rect.size.height)];
+    [self.backgroundImage drawInRect:self.bounds];
     
-    // Draw borders
-    UIImage *borderTop = [UIImage imageNamed:@"wheelBorder"];
-    UIImage *borderBottom = [UIImage imageWithCGImage:borderTop.CGImage
-                                                scale:1.0 
-                                          orientation:UIImageOrientationDownMirrored];
-    [borderTop drawInRect:CGRectMake(0.0, 0.0, rect.size.width, borderTop.size.height)];
-    [borderBottom drawInRect:CGRectMake(0.0, rect.size.height - borderTop.size.height, rect.size.width, borderTop.size.height)];
-    
-    
+    // Draw super/UIScrollView
     [super drawRect:rect];
+    
+    // Draw shadow
+    [self.shadowImage drawInRect:self.bounds];
+    
+    // Draw glass
+    if (self.showGlass) {
+        [self.glassImage drawInRect:CGRectMake(self.frame.size.width / 2 - 30, 0.0, 60, self.frame.size.height)];
+    }
 }
 
 - (void)setShowGlass:(BOOL)doShowGlass {
     if (showGlass != doShowGlass) {
-        if ([self.glassView superview] == nil) {
-            UIImage *glassImage = [UIImage imageNamed:@"stretchableGlass"];
-            if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 5.0) {
-                glassImage = [glassImage resizableImageWithCapInsets:UIEdgeInsetsMake(0, 1, 0, 1)];
-            } else {
-                glassImage = [glassImage stretchableImageWithLeftCapWidth:1 topCapHeight:0];
-            }
-            self.glassView = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width / 2 - 30, 0.0, 60, self.frame.size.height)];
-            self.glassView.image = glassImage;
-            [self addSubview:self.glassView];
-        } else {
-            [self.glassView removeFromSuperview];
-            self.glassView = nil;
-        }
-        
         showGlass = doShowGlass;
+        [self setNeedsDisplay];
     }
 }
 
-- (void)setPickerInset:(UIEdgeInsets)aPickerInset {
-    if (!UIEdgeInsetsEqualToEdgeInsets(pickerInset, aPickerInset)) {
-        pickerInset = aPickerInset;
-        self.contentView.frame = UIEdgeInsetsInsetRect(self.bounds, self.pickerInset);
+- (void)setPeekInset:(UIEdgeInsets)aPeekInset {
+    if (!UIEdgeInsetsEqualToEdgeInsets(peekInset, aPeekInset)) {
+        peekInset = aPeekInset;
+        self.contentView.frame = UIEdgeInsetsInsetRect(self.bounds, self.peekInset);
         [self reloadData];
         [self.contentView setNeedsDisplay];
     }
@@ -331,55 +325,5 @@
 {
     [self determineCurrentItem];
 }
-
-
-
-/*
- * Retained here in case someone wants the flexibility this affords
- *
- 
-@interface CPPickerGlassView : UIView
-
-@property (nonatomic, unsafe_unretained) UIImageView *leftBorder;
-@property (nonatomic, unsafe_unretained) UIImageView *rightBorder;
-@property (nonatomic, unsafe_unretained) UIImageView *center;
-
-@end
-
-@implementation CPPickerGlassView
-
-@synthesize leftBorder, rightBorder, center;
-
-- (id)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
-        
-        self.userInteractionEnabled = NO;
-        
-        UIImageView *newLeftBorder = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"glassLeft"]];
-        newLeftBorder.frame = CGRectMake(0.0, 0.0, 1, self.frame.size.height);
-        [self addSubview:newLeftBorder];
-        self.leftBorder = newLeftBorder;
-        
-        UIImageView *newRightBorder = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"glassRight"]];
-        newRightBorder.frame = CGRectMake(self.frame.size.width - 1, 0.0, 1, self.frame.size.height);
-        [self addSubview:newRightBorder];
-        self.rightBorder = newRightBorder;
-        
-        UIImageView *newCenter = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"glassCenter"]];
-        newCenter.frame = CGRectMake(1.0, 0.0, self.frame.size.width - 2, self.frame.size.height);
-        [self addSubview:newCenter];
-        self.center = newCenter;
-    }
-    
-    return self;
-}
-
-- (void)layoutSubviews {
-    self.leftBorder.frame = CGRectMake(0.0, 0.0, 1, self.frame.size.height);
-    self.rightBorder.frame = CGRectMake(self.frame.size.width - 1, 0.0, 1, self.frame.size.height);
-    self.center.frame = CGRectMake(1.0, 0.0, self.frame.size.width - 2, self.frame.size.height);
-}
-@end
-*/
 
 @end

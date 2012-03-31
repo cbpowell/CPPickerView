@@ -61,13 +61,12 @@
 @property (nonatomic, unsafe_unretained) id <CPPickerViewDelegate> delegate;
 // Views
 @property (nonatomic, strong) UIScrollView *contentView;
-@property (nonatomic, strong) UIImageView *glassView;
 // Current status
 @property (nonatomic, unsafe_unretained) int selectedItem;
 // Configuration
 @property (nonatomic, strong) UIFont *itemFont;
 @property (nonatomic) BOOL showGlass;
-@property (nonatomic) UIEdgeInsets pickerInset;
+@property (nonatomic) UIEdgeInsets peekInset;
 
 
 - (void)setup;
