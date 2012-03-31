@@ -17,6 +17,8 @@ To customize the appearance, replace the following images with your own:
  * stretchableGlass.png
  * shadowOverlay.png
 
+__NOTE__: CPPickerView uses `- (UIImage *)resizableImageWithCapInsets:(UIEdgeInsets)capInsets` (for iOS 5.0 and up) or `- (UIImage *)resizableImageWithCapInsets:(UIEdgeInsets)capInsets` (for below iOS 5.0) to stretch _wheelBackground.png_ and _stretchableGlass.png_. Be sure to look at the sample images in relation to the cap sizes set in CPPickerView.m's `initWithFrame:` before changing the sizing of the images, as you may need to adjust the caps. _shadowOverlay.png_ is currently simply stretched to fit the frame.
+
 Several appearance options are settable via properties:
 
  * `BOOL showGlass` - defines whether or not to show the "glass" overlay over the selected item.
