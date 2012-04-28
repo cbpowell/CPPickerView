@@ -56,6 +56,7 @@
         self.pickerView.delegate = self;
         self.pickerView.dataSource = self;
         self.pickerView.itemFont = [UIFont boldSystemFontOfSize:14];
+        self.pickerView.itemColor = [UIColor blackColor];
     }
     return self;
 }
