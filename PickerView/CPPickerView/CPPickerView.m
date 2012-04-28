@@ -66,9 +66,9 @@
 
 
 
-- (void)setRowFont:(UIFont *)rowFont
+- (void)setItemFont:(UIFont *)itemFont
 {
-    _itemFont = rowFont;
+    _itemFont = itemFont;
     
     for (UILabel *aLabel in visibleViews) 
     {
