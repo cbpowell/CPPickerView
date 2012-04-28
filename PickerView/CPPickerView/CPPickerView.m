@@ -50,6 +50,7 @@
 @synthesize glassImage, backgroundImage, shadowImage;
 @synthesize selectedItem = currentIndex;
 @synthesize itemFont = _itemFont;
+@synthesize itemColor = _itemColor;
 @synthesize showGlass, peekInset;
 
 #pragma mark - Custom getters/setters
@@ -78,6 +79,21 @@
     for (UILabel *aLabel in recycledViews) 
     {
         aLabel.font = _itemFont;
+    }
+}
+
+- (void)setItemColor:(UIColor *)itemColor
+{
+    _itemColor = itemColor;
+    
+    for (UILabel *aLabel in visibleViews) 
+    {
+        aLabel.textColor = _itemColor;
+    }
+    
+    for (UILabel *aLabel in recycledViews) 
+    {
+        aLabel.textColor = _itemColor;
     }
 }
 
@@ -125,6 +141,7 @@
 - (void)setup
 {
     _itemFont = [UIFont boldSystemFontOfSize:24.0];
+    _itemColor = [UIColor blackColor];
     showGlass = NO;
     peekInset = UIEdgeInsetsMake(0, 0, 0, 0);
     currentIndex = 0;
@@ -285,7 +302,7 @@
 				label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height)];
                 label.backgroundColor = [UIColor clearColor];
                 label.font = self.itemFont;
-                label.textColor = RGBACOLOR(0.0, 0.0, 0.0, 0.75);
+                label.textColor = self.itemColor;
                 label.textAlignment = UITextAlignmentCenter;
             }
             

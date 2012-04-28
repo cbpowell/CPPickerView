@@ -52,8 +52,6 @@
     // recycling
     NSMutableSet *recycledViews;
     NSMutableSet *visibleViews;
-    
-    UIFont *_itemFont;
 }
 
 // Datasource and delegate
@@ -65,6 +63,7 @@
 @property (nonatomic, unsafe_unretained) int selectedItem;
 // Configuration
 @property (nonatomic, strong) UIFont *itemFont;
+@property (nonatomic, strong) UIColor *itemColor;
 @property (nonatomic) BOOL showGlass;
 @property (nonatomic) UIEdgeInsets peekInset;
 
