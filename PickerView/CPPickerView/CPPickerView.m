@@ -97,6 +97,7 @@
         self.contentView.showsHorizontalScrollIndicator = NO;
         self.contentView.showsVerticalScrollIndicator = NO;
         self.contentView.pagingEnabled = YES;
+        self.contentView.scrollsToTop = NO;
         self.contentView.delegate = self;
         [self addSubview:self.contentView];
         
