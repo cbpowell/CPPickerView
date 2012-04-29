@@ -50,17 +50,12 @@
 @property (nonatomic, strong) UIFont *itemFont;
 @property (nonatomic, strong) UIColor *itemColor;
 @property (nonatomic) BOOL showGlass;
-@property (nonatomic) UIEdgeInsets peekInset;
+//@property (nonatomic) UIEdgeInsets peekInset;
 
 
-- (void)setup;
 - (void)reloadData;
-- (void)determineCurrentItem;
 - (void)selectItemAtItem:(NSInteger)index animated:(BOOL)animated;
-
-// recycle queue
 - (BOOL)isDisplayingViewForIndex:(NSUInteger)index;
-- (void)tileViews;
 
 @end
 

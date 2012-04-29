@@ -54,6 +54,10 @@
 @property (nonatomic) NSUInteger itemCount;
 @property (nonatomic, strong) NSMutableArray *items;
 
+- (void)setup;
+- (void)determineCurrentItem;
+- (void)tileViews;
+
 @end
 
 #pragma mark - CPPickerPrivateDelegate
@@ -96,8 +100,6 @@
         if (obj != [NSNull null]) {
             CGRect textRect = CGRectMake(self.pickerView.frame.size.width * idx, ((int)self.pickerView.bounds.size.height/2 - (int)self.pickerView.itemFont.lineHeight/2), self.pickerView.bounds.size.width, self.pickerView.frame.size.height);
             [(NSString *)obj drawInRect:textRect withFont:self.pickerView.itemFont lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
-        } else {
-            NSLog(@"Object at index %i is null", idx);
         }
     }];
     
@@ -120,7 +122,8 @@
 @synthesize selectedItem = _selectedItem;
 @synthesize itemFont = _itemFont;
 @synthesize itemColor = _itemColor;
-@synthesize showGlass, peekInset;
+@synthesize showGlass;
+//@synthesize peekInset;
 
 #pragma mark - Custom getters/setters
 
@@ -208,7 +211,7 @@
     _itemFont = [UIFont boldSystemFontOfSize:24.0];
     _itemColor = [UIColor blackColor];
     showGlass = NO;
-    peekInset = UIEdgeInsetsMake(0, 0, 0, 0);
+//    peekInset = UIEdgeInsetsMake(0, 0, 0, 0);
     currentIndex = 0;
     itemCount = 0;
 }
@@ -226,7 +229,7 @@
     
     // Draw glass
     if (self.showGlass) {
-        [self.glassImage drawInRect:CGRectMake(self.frame.size.width / 2 - 30, 0.0, 60, self.frame.size.height)];
+        [self.glassImage drawInRect:CGRectInset(self.bounds, 20, 0.0)];
     }
 }
 
@@ -237,14 +240,14 @@
     }
 }
 
-- (void)setPeekInset:(UIEdgeInsets)aPeekInset {
-    if (!UIEdgeInsetsEqualToEdgeInsets(peekInset, aPeekInset)) {
-        peekInset = aPeekInset;
-        //self.contentView.frame = UIEdgeInsetsInsetRect(self.bounds, self.peekInset);
-        [self reloadData];
-        //[self.contentView setNeedsDisplay];
-    }
-}
+//- (void)setPeekInset:(UIEdgeInsets)aPeekInset {
+//    if (!UIEdgeInsetsEqualToEdgeInsets(peekInset, aPeekInset)) {
+//        peekInset = aPeekInset;
+//        //self.contentView.frame = UIEdgeInsetsInsetRect(self.bounds, self.peekInset);
+//        [self reloadData];
+//        //[self.contentView setNeedsDisplay];
+//    }
+//}
 
 
 #pragma mark - Buisiness
