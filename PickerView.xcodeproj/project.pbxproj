@@ -22,6 +22,7 @@
 		EA5C7F901516717B0062E922 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5C7F8E1516717B0062E922 /* TableViewController.m */; };
 		EA5C7F911516717B0062E922 /* TableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA5C7F8F1516717B0062E922 /* TableViewController.xib */; };
 		EA5C7FAE1516B7BB0062E922 /* shadowOverlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EA5C7FAD1516B7BB0062E922 /* shadowOverlay@2x.png */; };
+		EA93E88C154CE4E4007BAEB3 /* wheelBackgroundV2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EA93E88B154CE4E4007BAEB3 /* wheelBackgroundV2@2x.png */; };
 		EAD618F81527845800F35E8B /* wheelBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EAD618F71527845800F35E8B /* wheelBackground@2x.png */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +50,7 @@
 		EA5C7F8E1516717B0062E922 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 		EA5C7F8F1516717B0062E922 /* TableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewController.xib; sourceTree = "<group>"; };
 		EA5C7FAD1516B7BB0062E922 /* shadowOverlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shadowOverlay@2x.png"; sourceTree = "<group>"; };
+		EA93E88B154CE4E4007BAEB3 /* wheelBackgroundV2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wheelBackgroundV2@2x.png"; sourceTree = "<group>"; };
 		EAD618F71527845800F35E8B /* wheelBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wheelBackground@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -138,6 +140,7 @@
 		0A3DA687147E3F7700143ADF /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				EA93E88B154CE4E4007BAEB3 /* wheelBackgroundV2@2x.png */,
 				EA5C7FAD1516B7BB0062E922 /* shadowOverlay@2x.png */,
 				EA50136A1519878400917CFA /* stretchableGlass@2x.png */,
 				EAD618F71527845800F35E8B /* wheelBackground@2x.png */,
@@ -201,6 +204,7 @@
 				EA5C7FAE1516B7BB0062E922 /* shadowOverlay@2x.png in Resources */,
 				EA50136B1519878400917CFA /* stretchableGlass@2x.png in Resources */,
 				EAD618F81527845800F35E8B /* wheelBackground@2x.png in Resources */,
+				EA93E88C154CE4E4007BAEB3 /* wheelBackgroundV2@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

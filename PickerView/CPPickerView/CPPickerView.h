@@ -39,28 +39,13 @@
 @protocol CPPickerViewDataSource;
 @protocol CPPickerViewDelegate;
 
-@interface CPPickerView : UIView <UIScrollViewDelegate>
-{
-    __unsafe_unretained id <CPPickerViewDataSource> dataSource;
-    __unsafe_unretained id <CPPickerViewDelegate> delegate;
-    UIScrollView *contentView;
-    UIImageView *glassView;
-    
-    int currentIndex;
-    int itemCount; 
-    
-    // recycling
-    NSMutableSet *recycledViews;
-    NSMutableSet *visibleViews;
-}
+@interface CPPickerView : UIScrollView
 
 // Datasource and delegate
-@property (nonatomic, unsafe_unretained) id <CPPickerViewDataSource> dataSource;
-@property (nonatomic, unsafe_unretained) id <CPPickerViewDelegate> delegate;
-// Views
-@property (nonatomic, strong) UIScrollView *contentView;
+@property (nonatomic, unsafe_unretained) id <CPPickerViewDataSource> pickerDataSource;
+@property (nonatomic, unsafe_unretained) id <CPPickerViewDelegate> pickerDelegate;
 // Current status
-@property (nonatomic, unsafe_unretained) int selectedItem;
+@property (nonatomic) NSUInteger selectedItem;
 // Configuration
 @property (nonatomic, strong) UIFont *itemFont;
 @property (nonatomic, strong) UIColor *itemColor;
@@ -74,10 +59,8 @@
 - (void)selectItemAtItem:(NSInteger)index animated:(BOOL)animated;
 
 // recycle queue
-- (UIView *)dequeueRecycledView;
 - (BOOL)isDisplayingViewForIndex:(NSUInteger)index;
 - (void)tileViews;
-- (void)configureView:(UIView *)view atIndex:(NSUInteger)index;
 
 @end
 

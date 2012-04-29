@@ -34,66 +34,118 @@
 
 #import "CPPickerView.h"
 
+#pragma mark - CPPickerView
+
+@interface CPPickerContent : UIView
+
+@property (nonatomic, unsafe_unretained) CPPickerView *pickerView;
+
+@end
+
 @interface CPPickerView ()
 
+@property (nonatomic, strong) id <UIScrollViewDelegate> privateDelegate;
 @property (nonatomic, strong) UIImage *backgroundImage;
 @property (nonatomic, strong) UIImage *glassImage;
 @property (nonatomic, strong) UIImage *shadowImage;
+@property (nonatomic, unsafe_unretained) CPPickerContent *content;
+
+@property (nonatomic) NSUInteger currentIndex;
+@property (nonatomic) NSUInteger itemCount;
+@property (nonatomic, strong) NSMutableArray *items;
+
+@end
+
+#pragma mark - CPPickerPrivateDelegate
+
+@interface CPPickerPrivateDelegate : NSObject <UIScrollViewDelegate>
+
+@property (nonatomic, unsafe_unretained) CPPickerView *pickerView;
+
+@end
+
+
+
+@implementation CPPickerPrivateDelegate
+
+@synthesize pickerView;
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.pickerView tileViews];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [self.pickerView determineCurrentItem];
+}
+@end
+
+
+
+#pragma mark - CPPickerItem
+
+@implementation CPPickerContent
+
+@synthesize pickerView;
+
+- (void)drawRect:(CGRect)rect {
+    
+    // Draw appropriate items
+    [self.pickerView.items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if (obj != [NSNull null]) {
+            CGRect textRect = CGRectMake(self.pickerView.frame.size.width * idx, ((int)self.pickerView.bounds.size.height/2 - (int)self.pickerView.itemFont.lineHeight/2), self.pickerView.bounds.size.width, self.pickerView.frame.size.height);
+            [(NSString *)obj drawInRect:textRect withFont:self.pickerView.itemFont lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
+        } else {
+            NSLog(@"Object at index %i is null", idx);
+        }
+    }];
+    
+    //[super drawRect:rect];
+}
 
 @end
 
 @implementation CPPickerView
 
-@synthesize dataSource;
-@synthesize delegate;
-@synthesize contentView;
+@synthesize privateDelegate;
+@synthesize pickerDataSource;
+@synthesize pickerDelegate;
+
+@synthesize itemCount, currentIndex;
+@synthesize items;
+
 @synthesize glassImage, backgroundImage, shadowImage;
-@synthesize selectedItem = currentIndex;
+@synthesize content;
+@synthesize selectedItem = _selectedItem;
 @synthesize itemFont = _itemFont;
 @synthesize itemColor = _itemColor;
 @synthesize showGlass, peekInset;
 
 #pragma mark - Custom getters/setters
 
-- (void)setSelectedItem:(int)selectedItem
+- (void)setSelectedItem:(NSUInteger)selectedItem
 {
-    if (selectedItem >= itemCount)
+    if (selectedItem >= self.itemCount)
         return;
     
     currentIndex = selectedItem;
     [self scrollToIndex:currentIndex animated:NO];
 }
 
-
-
-
 - (void)setItemFont:(UIFont *)itemFont
 {
-    _itemFont = itemFont;
-    
-    for (UILabel *aLabel in visibleViews) 
-    {
-        aLabel.font = _itemFont;
-    }
-    
-    for (UILabel *aLabel in recycledViews) 
-    {
-        aLabel.font = _itemFont;
+    if (![itemFont isEqual:_itemFont]) {
+        _itemFont = itemFont;
+        [self setNeedsDisplay];
     }
 }
 
 - (void)setItemColor:(UIColor *)itemColor
 {
-    _itemColor = itemColor;
-    
-    for (UILabel *aLabel in visibleViews) 
-    {
-        aLabel.textColor = _itemColor;
-    }
-    
-    for (UILabel *aLabel in recycledViews) 
-    {
-        aLabel.textColor = _itemColor;
+    if (![itemColor isEqual:_itemColor]) {
+        _itemColor = itemColor;
+        [self setNeedsDisplay];
     }
 }
 
@@ -104,18 +156,8 @@
     self = [super initWithFrame:frame];
     if (self) 
     {
-        // setup
+        // Setup
         [self setup];
-        
-        // content
-        self.contentView = [[UIScrollView alloc] initWithFrame:UIEdgeInsetsInsetRect(self.bounds, self.peekInset)]; //CGRectMake(0.0, 0.0, frame.size.width - self.pickerContainerInsets - , frame.size.height)];
-        self.contentView.clipsToBounds = NO;
-        self.contentView.showsHorizontalScrollIndicator = NO;
-        self.contentView.showsVerticalScrollIndicator = NO;
-        self.contentView.pagingEnabled = YES;
-        self.contentView.scrollsToTop = NO;
-        self.contentView.delegate = self;
-        [self addSubview:self.contentView];
         
         // Images
         if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 5.0) {
@@ -129,9 +171,8 @@
         
         // Rounded borders
         self.layer.cornerRadius = 3.0f;
-        self.clipsToBounds = YES;
         self.layer.borderColor = [UIColor colorWithWhite:0.15 alpha:1.0].CGColor;
-        self.layer.borderWidth = 0.5f;
+        self.layer.borderWidth = 1.0f;
     }
     return self;
 }
@@ -140,14 +181,36 @@
 
 - (void)setup
 {
+    // Scrollview settings
+    self.clipsToBounds = YES;
+    self.showsHorizontalScrollIndicator = NO;
+    self.showsVerticalScrollIndicator = NO;
+    self.pagingEnabled = YES;
+    self.scrollsToTop = NO;
+    self.opaque = YES;
+    self.backgroundColor = [UIColor clearColor];
+    
+    // Content view
+    CPPickerContent *newContent = [[CPPickerContent alloc] initWithFrame:self.bounds];
+    [self addSubview:newContent];
+    self.content = newContent;
+    self.content.pickerView = self;
+    self.content.backgroundColor = [UIColor clearColor];
+    
+    // Private delegate
+    self.privateDelegate = [[CPPickerPrivateDelegate alloc] init];
+    self.delegate = self.privateDelegate;
+    [(CPPickerPrivateDelegate *)self.privateDelegate setPickerView:self];
+    
+    // Item tracker
+    self.items = [NSMutableArray array];
+    
     _itemFont = [UIFont boldSystemFontOfSize:24.0];
     _itemColor = [UIColor blackColor];
     showGlass = NO;
     peekInset = UIEdgeInsetsMake(0, 0, 0, 0);
     currentIndex = 0;
     itemCount = 0;
-    visibleViews = [[NSMutableSet alloc] init];
-    recycledViews = [[NSMutableSet alloc] init];
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -177,9 +240,9 @@
 - (void)setPeekInset:(UIEdgeInsets)aPeekInset {
     if (!UIEdgeInsetsEqualToEdgeInsets(peekInset, aPeekInset)) {
         peekInset = aPeekInset;
-        self.contentView.frame = UIEdgeInsetsInsetRect(self.bounds, self.peekInset);
+        //self.contentView.frame = UIEdgeInsetsInsetRect(self.bounds, self.peekInset);
         [self reloadData];
-        [self.contentView setNeedsDisplay];
+        //[self.contentView setNeedsDisplay];
     }
 }
 
@@ -192,23 +255,21 @@
     currentIndex = 0;
     itemCount = 0;
     
-    for (UIView *aView in visibleViews) 
-        [aView removeFromSuperview];
-    
-    for (UIView *aView in recycledViews)
-        [aView removeFromSuperview];
-    
-    visibleViews = [[NSMutableSet alloc] init];
-    recycledViews = [[NSMutableSet alloc] init];
-    
-    if ([dataSource respondsToSelector:@selector(numberOfItemsInPickerView:)]) {
-        itemCount = [dataSource numberOfItemsInPickerView:self];
+    if ([pickerDataSource respondsToSelector:@selector(numberOfItemsInPickerView:)]) {
+        itemCount = [pickerDataSource numberOfItemsInPickerView:self];
     } else {
         itemCount = 0;
     }
     
+    self.items = [NSMutableArray arrayWithCapacity:itemCount];
+    for (int i=0; i<itemCount; i++)
+    {
+        [self.items addObject:[NSNull null]];
+    }
+    
     [self scrollToIndex:0 animated:NO];
-    self.contentView.contentSize = CGSizeMake(self.contentView.frame.size.width * itemCount, self.contentView.frame.size.height);  
+    self.contentSize = CGSizeMake(self.frame.size.width * itemCount, self.frame.size.height);
+    self.content.frame = CGRectMake(0.0, 0.0, self.bounds.size.width * itemCount, self.bounds.size.height);
     [self tileViews];
 }
 
@@ -217,11 +278,11 @@
 
 - (void)determineCurrentItem
 {
-    CGFloat delta = self.contentView.contentOffset.x;
-    int position = round(delta / self.contentView.frame.size.width);
+    CGFloat delta = self.contentOffset.x;
+    int position = floorf(delta / self.frame.size.width);
     currentIndex = position;
-    if ([delegate respondsToSelector:@selector(pickerView:didSelectItem:)]) {
-        [delegate pickerView:self didSelectItem:currentIndex];
+    if ([pickerDelegate respondsToSelector:@selector(pickerView:didSelectItem:)]) {
+        [pickerDelegate pickerView:self didSelectItem:currentIndex];
     }
 }
 
@@ -230,7 +291,7 @@
 }
 
 - (void)scrollToIndex:(NSInteger)index animated:(BOOL)animated {
-    [self.contentView setContentOffset:CGPointMake(self.contentView.frame.size.width * index, 0.0) animated:animated];
+    [self setContentOffset:CGPointMake(self.frame.size.width * index, 0.0) animated:animated];
 }
 
 
@@ -238,110 +299,46 @@
 
 #pragma mark - recycle queue
 
-- (UIView *)dequeueRecycledView
-{
-	UIView *aView = [recycledViews anyObject];
-	
-    if (aView) 
-        [recycledViews removeObject:aView];
-    return aView;
-}
-
-
-
 - (BOOL)isDisplayingViewForIndex:(NSUInteger)index
 {
-	BOOL foundPage = NO;
-    for (UIView *aView in visibleViews) 
-	{
-        int viewIndex = aView.frame.origin.x / self.contentView.frame.size.width;
-        if (viewIndex == index) 
-		{
-            foundPage = YES;
-            break;
-        }
+	if ([self.items objectAtIndex:index] != [NSNull null]) {
+        return YES;
     }
-    return foundPage;
+    
+    return NO;
 }
-
-
 
 
 - (void)tileViews
 {
     // Calculate which pages are visible
-    CGRect visibleBounds = self.contentView.bounds;
-    int currentViewIndex = floorf(self.contentView.contentOffset.x / self.contentView.frame.size.width);
+    int currentViewIndex = floorf(self.contentOffset.x / self.frame.size.width);
     int firstNeededViewIndex = currentViewIndex - 2; 
     int lastNeededViewIndex  = currentViewIndex + 2;
     firstNeededViewIndex = MAX(firstNeededViewIndex, 0);
-    lastNeededViewIndex  = MIN(lastNeededViewIndex, itemCount - 1);
-	
-    // Recycle no-longer-visible pages 
-	for (UIView *aView in visibleViews) 
-    {
-        int viewIndex = aView.frame.origin.x / visibleBounds.size.width - 2;
-        if (viewIndex < firstNeededViewIndex || viewIndex > lastNeededViewIndex) 
-        {
-            [recycledViews addObject:aView];
-            [aView removeFromSuperview];
-        }
-    }
+    lastNeededViewIndex  = MIN(lastNeededViewIndex, self.itemCount - 1);
     
-    [visibleViews minusSet:recycledViews];
-    
-    // add missing pages
-	for (int index = firstNeededViewIndex; index <= lastNeededViewIndex; index++) 
-	{
-        if (![self isDisplayingViewForIndex:index]) 
-		{
-            UILabel *label = (UILabel *)[self dequeueRecycledView];
-            
-			if (label == nil)
-            {
-				label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height)];
-                label.backgroundColor = [UIColor clearColor];
-                label.font = self.itemFont;
-                label.textColor = self.itemColor;
-                label.textAlignment = UITextAlignmentCenter;
-            }
-            
-            [self configureView:label atIndex:index];
-            [self.contentView addSubview:label];
-            [visibleViews addObject:label];
+    for (int i=0; i<=(self.items.count - 1); i++) {
+        if (i >= firstNeededViewIndex && i <= lastNeededViewIndex) {
+            [self configureItemAtIndex:i];
+            [self.content setNeedsDisplay];
+        } else {
+            [self.items replaceObjectAtIndex:i withObject:[NSNull null]];
         }
     }
 }
 
-
-
-
-- (void)configureView:(UIView *)view atIndex:(NSUInteger)index
-{
-    UILabel *label = (UILabel *)view;
-    
-    if ([dataSource respondsToSelector:@selector(pickerView:titleForItem:)]) {
-        label.text = [dataSource pickerView:self titleForItem:index];
+- (void)configureItemAtIndex:(NSUInteger)index {
+    NSString *text;
+    if ([pickerDataSource respondsToSelector:@selector(pickerView:titleForItem:)]) {
+        text = [pickerDataSource pickerView:self titleForItem:index];
     }
     
-    CGRect frame = label.frame;
-    frame.origin.x = self.contentView.frame.size.width * index;// + 78.0;
-    label.frame = frame;
+    [self.items replaceObjectAtIndex:index withObject:text];
 }
+        
 
 
-
-
-#pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    [self tileViews];
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    [self determineCurrentItem];
-}
 
 @end
+

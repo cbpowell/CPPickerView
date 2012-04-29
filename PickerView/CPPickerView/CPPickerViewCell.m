@@ -53,8 +53,8 @@
         CPPickerView *newPickerView = [[CPPickerView alloc] initWithFrame:CGRectMake(192, 8, 112, 30)];
         [self addSubview:newPickerView];
         self.pickerView = newPickerView;
-        self.pickerView.delegate = self;
-        self.pickerView.dataSource = self;
+        self.pickerView.pickerDelegate = self;
+        self.pickerView.pickerDataSource = self;
         self.pickerView.itemFont = [UIFont boldSystemFontOfSize:14];
         self.pickerView.itemColor = [UIColor blackColor];
     }

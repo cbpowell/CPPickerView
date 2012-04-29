@@ -30,8 +30,8 @@
     
     defaultPickerView = [[CPPickerView alloc] initWithFrame:CGRectMake(85, 30.0, 150, 40)];
     defaultPickerView.backgroundColor = [UIColor whiteColor];
-    defaultPickerView.dataSource = self;
-    defaultPickerView.delegate = self;
+    defaultPickerView.pickerDataSource = self;
+    defaultPickerView.pickerDelegate = self;
     [defaultPickerView reloadData];
     [self.view addSubview:defaultPickerView];
 }
@@ -41,7 +41,7 @@
 
 - (NSInteger)numberOfItemsInPickerView:(CPPickerView *)pickerView
 {
-    return 100;
+    return 7;
 }
 
 
@@ -49,7 +49,7 @@
 
 - (NSString *)pickerView:(CPPickerView *)pickerView titleForItem:(NSInteger)item
 {
-    return [NSString stringWithFormat:@"%i", item + 1];
+    return [daysData objectAtIndex:item];
 }
 
 
