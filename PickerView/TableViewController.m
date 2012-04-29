@@ -86,7 +86,7 @@
     
     if (section == 1) {
         cell.showGlass = YES;
-        cell.peekInset = UIEdgeInsetsMake(0, 18, 0, 18);
+        //cell.peekInset = UIEdgeInsetsMake(0, 18, 0, 18);
     }
     
     [cell selectItemAtIndex:[[[self.settingsStorage objectAtIndex:section] objectAtIndex:row] intValue] animated:NO];

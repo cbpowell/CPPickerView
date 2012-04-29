@@ -44,7 +44,8 @@
 
 @synthesize pickerView;
 @synthesize dataSource, delegate;
-@synthesize selectedItem, showGlass, peekInset;
+@synthesize selectedItem, showGlass;
+//@synthesize peekInset;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -94,13 +95,13 @@
     return self.pickerView.showGlass;
 }
 
-- (void)setPeekInset:(UIEdgeInsets)aPeekInset {
-    self.pickerView.peekInset = aPeekInset;
-}
-
-- (UIEdgeInsets)peekInset {
-    return self.pickerView.peekInset;
-}
+//- (void)setPeekInset:(UIEdgeInsets)aPeekInset {
+//    self.pickerView.peekInset = aPeekInset;
+//}
+//
+//- (UIEdgeInsets)peekInset {
+//    return self.pickerView.peekInset;
+//}
 
 #pragma mark CPPickerView Delegate
 

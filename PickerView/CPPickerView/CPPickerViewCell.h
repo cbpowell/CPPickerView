@@ -41,7 +41,7 @@
 @property (nonatomic, unsafe_unretained) id <CPPickerViewCellDelegate> delegate;
 @property (nonatomic, readonly) NSInteger selectedItem;
 @property (nonatomic) BOOL showGlass;
-@property (nonatomic) UIEdgeInsets peekInset;
+//@property (nonatomic) UIEdgeInsets peekInset;
 
 - (void)reloadData;
 - (void)selectItemAtIndex:(NSInteger)index animated:(BOOL)animated;
