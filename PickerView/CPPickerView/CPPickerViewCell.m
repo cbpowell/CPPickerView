@@ -80,7 +80,7 @@
 }
 
 - (void)selectItemAtIndex:(NSInteger)index animated:(BOOL)animated {
-    [self.pickerView selectItemAtItem:index animated:animated];
+    [self.pickerView selectItemAtIndex:index animated:animated];
 }
 
 - (NSInteger)selectedItem {

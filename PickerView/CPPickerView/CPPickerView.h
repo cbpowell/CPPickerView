@@ -54,7 +54,15 @@
 
 
 - (void)reloadData;
+<<<<<<< HEAD
 - (void)selectItemAtItem:(NSInteger)index animated:(BOOL)animated;
+=======
+- (void)determineCurrentItem;
+- (void)selectItemAtIndex:(NSInteger)index animated:(BOOL)animated;
+
+// recycle queue
+- (UIView *)dequeueRecycledView;
+>>>>>>> refs/heads/master
 - (BOOL)isDisplayingViewForIndex:(NSUInteger)index;
 
 @end

@@ -289,7 +289,7 @@
     }
 }
 
-- (void)selectItemAtItem:(NSInteger)index animated:(BOOL)animated {
+- (void)selectItemAtIndex:(NSInteger)index animated:(BOOL)animated {
     [self scrollToIndex:index animated:animated];
 }
 

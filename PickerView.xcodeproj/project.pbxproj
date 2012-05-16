@@ -306,12 +306,20 @@
 		0A3DA675147E3D9700143ADF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+<<<<<<< HEAD
+=======
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+>>>>>>> refs/heads/master
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PickerView/PickerView-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "PickerView/PickerView-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+<<<<<<< HEAD
+=======
+				PROVISIONING_PROFILE = "";
+>>>>>>> refs/heads/master
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -320,12 +328,20 @@
 		0A3DA676147E3D9700143ADF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+<<<<<<< HEAD
+=======
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+>>>>>>> refs/heads/master
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PickerView/PickerView-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "PickerView/PickerView-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+<<<<<<< HEAD
+=======
+				PROVISIONING_PROFILE = "";
+>>>>>>> refs/heads/master
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
