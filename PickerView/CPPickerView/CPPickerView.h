@@ -71,7 +71,7 @@
 - (void)setup;
 - (void)reloadData;
 - (void)determineCurrentItem;
-- (void)selectItemAtItem:(NSInteger)index animated:(BOOL)animated;
+- (void)selectItemAtIndex:(NSInteger)index animated:(BOOL)animated;
 
 // recycle queue
 - (UIView *)dequeueRecycledView;
