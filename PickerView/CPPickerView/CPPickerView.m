@@ -183,6 +183,14 @@
     }
 }
 
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    if ([self pointInside:point withEvent:event]) {
+        return self.contentView;
+    }
+    
+    return nil;
+}
+
 
 #pragma mark - Buisiness
 
