@@ -39,10 +39,16 @@
 
 @property (nonatomic, unsafe_unretained) id <CPPickerViewCellDataSource> dataSource;
 @property (nonatomic, unsafe_unretained) id <CPPickerViewCellDelegate> delegate;
+@property (nonatomic, copy) NSIndexPath *currentIndexPath;
+
 @property (nonatomic, readonly) NSInteger selectedItem;
 @property (nonatomic) BOOL showGlass;
 @property (nonatomic) UIEdgeInsets peekInset;
 
+// Initialization
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier atIndexPath:(NSIndexPath *)indexPath;
+
+// Handling
 - (void)reloadData;
 - (void)selectItemAtIndex:(NSInteger)index animated:(BOOL)animated;
 

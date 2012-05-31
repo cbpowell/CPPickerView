@@ -34,7 +34,6 @@
 @interface CPPickerViewCell ()
 
 @property (nonatomic, unsafe_unretained) CPPickerView *pickerView;
-@property (nonatomic, readonly) NSIndexPath *currentIndexPath;
 
 @end
 
@@ -45,8 +44,15 @@
 @synthesize pickerView;
 @synthesize dataSource, delegate;
 @synthesize selectedItem, showGlass, peekInset;
+@synthesize currentIndexPath = _currentIndexPath;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    NSAssert(self.currentIndexPath, @"CPPickerViewCell must be init'd with knowledge of it's index path. Use initWithStyle:reuseIdentifier:atIndexPath instead.");
+    return nil;
+}
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier atIndexPath:(NSIndexPath *)indexPath
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -57,6 +63,9 @@
         self.pickerView.dataSource = self;
         self.pickerView.itemFont = [UIFont boldSystemFontOfSize:14];
         self.pickerView.itemColor = [UIColor blackColor];
+        
+        // Set indexPath
+        self.currentIndexPath = indexPath;
     }
     return self;
 }
@@ -65,11 +74,17 @@
 {
     [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
 }
 
 - (NSIndexPath *)currentIndexPath {
-    return [(UITableView *)self.superview indexPathForCell: self];
+    if (_currentIndexPath == nil) {
+        _currentIndexPath = [(UITableView *)self.superview indexPathForCell:self];
+    }
+    return _currentIndexPath;
+}
+
+- (void)didMoveToSuperview {
+    [self reloadData];
 }
 
 #pragma mark External
