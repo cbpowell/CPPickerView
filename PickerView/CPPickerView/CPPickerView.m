@@ -108,7 +108,7 @@
         [self setup];
         
         // content
-        self.contentView = [[UIScrollView alloc] initWithFrame:UIEdgeInsetsInsetRect(self.bounds, self.peekInset)]; //CGRectMake(0.0, 0.0, frame.size.width - self.pickerContainerInsets - , frame.size.height)];
+        self.contentView = [[UIScrollView alloc] initWithFrame:UIEdgeInsetsInsetRect(self.bounds, self.peekInset)];
         self.contentView.clipsToBounds = NO;
         self.contentView.showsHorizontalScrollIndicator = NO;
         self.contentView.showsVerticalScrollIndicator = NO;
@@ -184,6 +184,7 @@
 }
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    
     if ([self pointInside:point withEvent:event]) {
         return self.contentView;
     }
@@ -192,7 +193,7 @@
 }
 
 
-#pragma mark - Buisiness
+#pragma mark - Data handling and interaction
 
 - (void)reloadData
 {
@@ -333,7 +334,7 @@
     }
     
     CGRect frame = label.frame;
-    frame.origin.x = self.contentView.frame.size.width * index;// + 78.0;
+    frame.origin.x = self.contentView.frame.size.width * index;
     label.frame = frame;
 }
 
@@ -351,5 +352,6 @@
 {
     [self determineCurrentItem];
 }
+
 
 @end
