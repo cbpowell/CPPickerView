@@ -35,7 +35,7 @@ pickerView.rowIndent = 10.0;
 pickerView.showGlass = YES;
 ```
 
-Set the dataSource, delegate and call `[pickerView reloadData]`
+Set the dataSource, delegate, and call `[pickerView reloadData]`:
 
 ```objective-c
 pickerView.dataSource = self;
@@ -56,12 +56,15 @@ if (cell == nil) {
 }
 ```
 
-Set the data source and the delegate for the cell:
+Set the data source and the delegate for the cell, and inform it of it's index path:
 
 ```objective-c
 cell.dataSource = self;
 cell.delegate = self;
+cell.currentIndexPath = indexPath;
 ```
+
+__NOTE__: CPPickerViewCells MUST be informed of their index path in the table, or you won't be able to distinguish between them in your datasource and delegate methods!
 
 And implement CPPickerViewCellDataSource and CPPickerViewCellDelegate per the protocols. In the included example the TableViewController (i.e. `self`) is set up as the data source and delegate for all cells.
 
