@@ -69,13 +69,14 @@
     CPPickerViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (cell == nil) {
-        cell = [[CPPickerViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[CPPickerViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier atIndexPath:indexPath];
     }
     
     cell.textLabel.text = @"Multi-option picker";
     
     cell.dataSource = self;
     cell.delegate = self;
+    cell.currentIndexPath = indexPath;
     
     [cell reloadData];
     
@@ -86,7 +87,7 @@
     
     if (section == 1) {
         cell.showGlass = YES;
-        cell.peekInset = UIEdgeInsetsMake(0, 25, 0, 25);
+        cell.peekInset = UIEdgeInsetsMake(0, 35, 0, 35);
     }
     
     [cell selectItemAtIndex:[[[self.settingsStorage objectAtIndex:section] objectAtIndex:row] intValue] animated:NO];
@@ -98,23 +99,33 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-      *detailViewController = [[ alloc] initWithNibName:@"" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    // Do Nothing
 }
 
 #pragma mark - CPPickerViewCell DataSource
 
 - (NSInteger)numberOfItemsInPickerViewAtIndexPath:(NSIndexPath *)pickerPath {
-    return 4;
+    if (pickerPath.section == 0) {
+        return 4;
+    }
+    
+    if (pickerPath.section == 1) {
+        return 10;
+    }
+    
+    return 0;
 }
 
 - (NSString *)pickerViewAtIndexPath:(NSIndexPath *)pickerPath titleForItem:(NSInteger)item {
-    return [NSString stringWithFormat:@"Option %i", item + 1];
+    if (pickerPath.section == 0) {
+        return [NSString stringWithFormat:@"Option %i", item + 1];
+    }
+    
+    if (pickerPath.section == 1) {
+        return [NSString stringWithFormat:@"%i", item + 1];
+    }
+    
+    return nil;
 }
 
 #pragma mark - CPPickerViewCell Delegate
