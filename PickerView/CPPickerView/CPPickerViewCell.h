@@ -45,9 +45,6 @@
 @property (nonatomic) BOOL showGlass;
 @property (nonatomic) UIEdgeInsets peekInset;
 
-// Initialization
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier atIndexPath:(NSIndexPath *)indexPath;
-
 // Handling
 - (void)reloadData;
 - (void)selectItemAtIndex:(NSInteger)index animated:(BOOL)animated;

@@ -48,12 +48,6 @@
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    NSAssert(self.currentIndexPath, @"CPPickerViewCell must be init'd with knowledge of it's index path. Use initWithStyle:reuseIdentifier:atIndexPath instead.");
-    return nil;
-}
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier atIndexPath:(NSIndexPath *)indexPath
-{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         CPPickerView *newPickerView = [[CPPickerView alloc] initWithFrame:CGRectMake(192, 8, 112, 30)];
@@ -63,9 +57,6 @@
         self.pickerView.dataSource = self;
         self.pickerView.itemFont = [UIFont boldSystemFontOfSize:14];
         self.pickerView.itemColor = [UIColor blackColor];
-        
-        // Set indexPath
-        self.currentIndexPath = indexPath;
     }
     return self;
 }
@@ -81,10 +72,6 @@
         _currentIndexPath = [(UITableView *)self.superview indexPathForCell:self];
     }
     return _currentIndexPath;
-}
-
-- (void)didMoveToSuperview {
-    [self reloadData];
 }
 
 #pragma mark External
