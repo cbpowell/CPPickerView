@@ -217,6 +217,7 @@
     }
     
     [self scrollToIndex:0 animated:NO];
+    self.contentView.frame = UIEdgeInsetsInsetRect(self.bounds, self.peekInset);
     self.contentView.contentSize = CGSizeMake(self.contentView.frame.size.width * itemCount, self.contentView.frame.size.height);  
     [self tileViews];
 }
@@ -312,7 +313,7 @@
                 label.backgroundColor = [UIColor clearColor];
                 label.font = self.itemFont;
                 label.textColor = self.itemColor;
-                label.textAlignment = UITextAlignmentCenter;
+                label.textAlignment = NSTextAlignmentCenter;
             }
             
             [self configureView:label atIndex:index];
