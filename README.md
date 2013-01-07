@@ -7,6 +7,9 @@ Also included is CPPickerViewCell, a UITableViewCell sublcass that adds a CPPick
 If you're interested in a vertical custom UIPickerView controller, check out [AFPickerView](https://github.com/arkichek/AFPickerView) by Arkady Fraerman! This code is essentially forked from his project.
 
 ![CPPickerView screenshot](http://cbpowell.github.com/CPPickerView/screenshot.png)
+
+CPPickerView is currently in use by at least one approved app in the App Store (Hipmunk for iPhone/iPad!).
+
 ## Usage
 
 ### General
