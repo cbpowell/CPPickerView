@@ -55,8 +55,8 @@
 }
 
 // Datasource and delegate
-@property (nonatomic, unsafe_unretained) id <CPPickerViewDataSource> dataSource;
-@property (nonatomic, unsafe_unretained) id <CPPickerViewDelegate> delegate;
+@property (nonatomic, unsafe_unretained) IBOutlet id <CPPickerViewDataSource> dataSource;
+@property (nonatomic, unsafe_unretained) IBOutlet id <CPPickerViewDelegate> delegate;
 // Views
 @property (nonatomic, strong) UIScrollView *contentView;
 // Current status
