@@ -99,43 +99,58 @@
 
 #pragma mark - Initialization
 
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) 
     {
-        // setup
-        [self setup];
-        
-        // content
-        self.contentView = [[UIScrollView alloc] initWithFrame:UIEdgeInsetsInsetRect(self.bounds, self.peekInset)];
-        self.contentView.clipsToBounds = NO;
-        self.contentView.showsHorizontalScrollIndicator = NO;
-        self.contentView.showsVerticalScrollIndicator = NO;
-        self.contentView.pagingEnabled = YES;
-        self.contentView.scrollsToTop = NO;
-        self.contentView.delegate = self;
-        [self addSubview:self.contentView];
-        
-        // Images
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 5.0) {
-            self.backgroundImage = [[UIImage imageNamed:@"wheelBackground"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 0, 5, 0)];
-            self.glassImage = [[UIImage imageNamed:@"stretchableGlass"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 1, 0, 1)];
-        } else {
-            self.backgroundImage = [[UIImage imageNamed:@"wheelBackground"] stretchableImageWithLeftCapWidth:0 topCapHeight:5];
-            self.glassImage = [[UIImage imageNamed:@"stretchableGlass"]  stretchableImageWithLeftCapWidth:1 topCapHeight:0];
-        }
-        self.shadowImage = [UIImage imageNamed:@"shadowOverlay"];
-        
-        // Rounded borders
-        self.layer.cornerRadius = 3.0f;
-        self.clipsToBounds = YES;
-        self.layer.borderColor = [UIColor colorWithWhite:0.15 alpha:1.0].CGColor;
-        self.layer.borderWidth = 0.5f;
+        [self commonInit];
     }
     return self;
 }
 
+
+-(id)initWithCoder:(NSCoder *)aDecoder
+{
+    if ((self = [super initWithCoder:aDecoder]))
+    {
+        [self commonInit];
+    }
+    return self;
+}
+
+-(void)commonInit
+{
+    // setup
+    [self setup];
+
+    // content
+    self.contentView = [[UIScrollView alloc] initWithFrame:UIEdgeInsetsInsetRect(self.bounds, self.peekInset)];
+    self.contentView.clipsToBounds = NO;
+    self.contentView.showsHorizontalScrollIndicator = NO;
+    self.contentView.showsVerticalScrollIndicator = NO;
+    self.contentView.pagingEnabled = YES;
+    self.contentView.scrollsToTop = NO;
+    self.contentView.delegate = self;
+    [self addSubview:self.contentView];
+
+    // Images
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 5.0) {
+        self.backgroundImage = [[UIImage imageNamed:@"wheelBackground"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 0, 5, 0)];
+        self.glassImage = [[UIImage imageNamed:@"stretchableGlass"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 1, 0, 1)];
+    } else {
+        self.backgroundImage = [[UIImage imageNamed:@"wheelBackground"] stretchableImageWithLeftCapWidth:0 topCapHeight:5];
+        self.glassImage = [[UIImage imageNamed:@"stretchableGlass"]  stretchableImageWithLeftCapWidth:1 topCapHeight:0];
+    }
+    self.shadowImage = [UIImage imageNamed:@"shadowOverlay"];
+
+    // Rounded borders
+    self.layer.cornerRadius = 3.0f;
+    self.clipsToBounds = YES;
+    self.layer.borderColor = [UIColor colorWithWhite:0.15 alpha:1.0].CGColor;
+    self.layer.borderWidth = 0.5f;
+}
 
 
 - (void)setup
