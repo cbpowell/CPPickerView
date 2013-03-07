@@ -35,7 +35,8 @@
 #import "CPPickerView.h"
 
 @interface CPPickerView ()
-
+// Views
+@property (nonatomic, strong) UIScrollView *contentView;
 @property (nonatomic, strong) UIImage *backgroundImage;
 @property (nonatomic, strong) UIImage *glassImage;
 @property (nonatomic, strong) UIImage *shadowImage;
