@@ -46,6 +46,7 @@
 @property (nonatomic, unsafe_unretained) IBOutlet id <CPPickerViewDelegate> delegate;
 // Current status
 @property (nonatomic, unsafe_unretained) int selectedItem;
+@property (nonatomic) BOOL enabled;
 // Configuration
 @property (nonatomic, strong) UIFont *itemFont;
 @property (nonatomic, strong) UIColor *itemColor;

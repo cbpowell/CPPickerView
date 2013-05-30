@@ -260,6 +260,13 @@
 }
 
 
+- (BOOL)enabled {
+    return self.contentView.scrollEnabled;
+}
+
+- (void)setEnabled:(BOOL)enabled {
+    self.contentView.scrollEnabled = enabled;
+}
 
 
 #pragma mark - recycle queue
