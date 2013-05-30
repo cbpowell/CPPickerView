@@ -26,16 +26,15 @@
     
     self.title = @"View Usage";
 	
-    daysData = [[NSArray alloc] initWithObjects:@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday", nil];
+    self.daysData = [[NSArray alloc] initWithObjects:@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday", nil];
     
-    defaultPickerView = [[CPPickerView alloc] initWithFrame:CGRectMake(85, 30.0, 150, 40)];
-    defaultPickerView.backgroundColor = [UIColor whiteColor];
-    defaultPickerView.dataSource = self;
-    defaultPickerView.delegate = self;
-    [defaultPickerView reloadData];
-    [self.view addSubview:defaultPickerView];
+    self.defaultPickerView = [[CPPickerView alloc] initWithFrame:CGRectMake(85, 30.0, 150, 40)];
+    self.defaultPickerView.backgroundColor = [UIColor whiteColor];
+    self.defaultPickerView.dataSource = self;
+    self.defaultPickerView.delegate = self;
+    [self.defaultPickerView reloadData];
+    [self.view addSubview:self.defaultPickerView];
 }
-
 
 #pragma mark - CPPickerViewDataSource
 

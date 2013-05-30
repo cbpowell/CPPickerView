@@ -39,20 +39,7 @@
 @protocol CPPickerViewDataSource;
 @protocol CPPickerViewDelegate;
 
-@interface CPPickerView : UIView <UIScrollViewDelegate>
-{
-    __unsafe_unretained id <CPPickerViewDataSource> dataSource;
-    __unsafe_unretained id <CPPickerViewDelegate> delegate;
-    UIScrollView *contentView;
-    UIImageView *glassView;
-    
-    int currentIndex;
-    int itemCount; 
-    
-    // recycling
-    NSMutableSet *recycledViews;
-    NSMutableSet *visibleViews;
-}
+@interface CPPickerView : UIView
 
 // Datasource and delegate
 @property (nonatomic, unsafe_unretained) IBOutlet id <CPPickerViewDataSource> dataSource;
@@ -66,16 +53,12 @@
 @property (nonatomic) UIEdgeInsets peekInset;
 
 
-- (void)setup;
 - (void)reloadData;
-- (void)determineCurrentItem;
 - (void)selectItemAtIndex:(NSInteger)index animated:(BOOL)animated;
 
 // recycle queue
 - (UIView *)dequeueRecycledView;
 - (BOOL)isDisplayingViewForIndex:(NSUInteger)index;
-- (void)tileViews;
-- (void)configureView:(UIView *)view atIndex:(NSUInteger)index;
 
 @end
 

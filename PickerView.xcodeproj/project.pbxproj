@@ -98,6 +98,7 @@
 		0A3DA660147E3D9700143ADF /* PickerView */ = {
 			isa = PBXGroup;
 			children = (
+				0A3DA677147E3DAB00143ADF /* CPPickerView */,
 				0A3DA669147E3D9700143ADF /* AppDelegate.h */,
 				0A3DA66A147E3D9700143ADF /* AppDelegate.m */,
 				0A3DA66C147E3D9700143ADF /* ViewController.h */,
@@ -106,7 +107,6 @@
 				EA5C7F8D1516717B0062E922 /* TableViewController.h */,
 				EA5C7F8E1516717B0062E922 /* TableViewController.m */,
 				EA5C7F8F1516717B0062E922 /* TableViewController.xib */,
-				0A3DA677147E3DAB00143ADF /* CPPickerView */,
 				0A3DA661147E3D9700143ADF /* Supporting Files */,
 			);
 			path = PickerView;

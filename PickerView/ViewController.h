@@ -10,11 +10,11 @@
 #import "CPPickerView.h"
 
 @interface ViewController : UIViewController <CPPickerViewDataSource, CPPickerViewDelegate>
-{
-    CPPickerView *defaultPickerView;
-    CPPickerView *daysPickerView;
-    NSArray *daysData;
-}
+
+@property (nonatomic, strong) CPPickerView *defaultPickerView;
+@property (nonatomic, strong) CPPickerView *daysPickerView;
+
+@property (nonatomic, strong) NSArray *daysData;
 
 @property (strong, nonatomic) IBOutlet UILabel *numberLabel;
 @property (strong, nonatomic) IBOutlet UILabel *dayLabel;

@@ -34,35 +34,38 @@
 
 #import "CPPickerView.h"
 
-@interface CPPickerView ()
+@interface CPPickerView () <UIScrollViewDelegate>
 // Views
 @property (nonatomic, strong) UIScrollView *contentView;
 @property (nonatomic, strong) UIImage *backgroundImage;
 @property (nonatomic, strong) UIImage *glassImage;
 @property (nonatomic, strong) UIImage *shadowImage;
 
+// recycling
+@property (nonatomic, strong) NSMutableSet *recycledViews;
+@property (nonatomic, strong) NSMutableSet *visibleViews;
+
+@property (nonatomic) NSUInteger itemCount;
+
+- (void)setup;
+
+- (void)determineCurrentItem;
+- (void)tileViews;
+- (void)configureView:(UIView *)view atIndex:(NSUInteger)index;
+
 @end
 
 @implementation CPPickerView
-
-@synthesize dataSource;
-@synthesize delegate;
-@synthesize contentView;
-@synthesize glassImage, backgroundImage, shadowImage;
-@synthesize selectedItem = currentIndex;
-@synthesize itemFont = _itemFont;
-@synthesize itemColor = _itemColor;
-@synthesize showGlass, peekInset;
 
 #pragma mark - Custom getters/setters
 
 - (void)setSelectedItem:(int)selectedItem
 {
-    if (selectedItem >= itemCount)
+    if (selectedItem >= self.itemCount)
         return;
     
-    currentIndex = selectedItem;
-    [self scrollToIndex:currentIndex animated:NO];
+    _selectedItem = selectedItem;
+    [self scrollToIndex:_selectedItem animated:NO];
 }
 
 
@@ -72,12 +75,12 @@
 {
     _itemFont = itemFont;
     
-    for (UILabel *aLabel in visibleViews) 
+    for (UILabel *aLabel in self.visibleViews)
     {
         aLabel.font = _itemFont;
     }
     
-    for (UILabel *aLabel in recycledViews) 
+    for (UILabel *aLabel in self.recycledViews)
     {
         aLabel.font = _itemFont;
     }
@@ -87,12 +90,12 @@
 {
     _itemColor = itemColor;
     
-    for (UILabel *aLabel in visibleViews) 
+    for (UILabel *aLabel in self.visibleViews)
     {
         aLabel.textColor = _itemColor;
     }
     
-    for (UILabel *aLabel in recycledViews) 
+    for (UILabel *aLabel in self.recycledViews)
     {
         aLabel.textColor = _itemColor;
     }
@@ -158,12 +161,12 @@
 {
     _itemFont = [UIFont boldSystemFontOfSize:24.0];
     _itemColor = [UIColor blackColor];
-    showGlass = NO;
-    peekInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    currentIndex = 0;
-    itemCount = 0;
-    visibleViews = [[NSMutableSet alloc] init];
-    recycledViews = [[NSMutableSet alloc] init];
+    _showGlass = NO;
+    _peekInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    _selectedItem = 0;
+    _itemCount = 0;
+    _visibleViews = [[NSMutableSet alloc] init];
+    _recycledViews = [[NSMutableSet alloc] init];
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -184,16 +187,16 @@
 }
 
 - (void)setShowGlass:(BOOL)doShowGlass {
-    if (showGlass != doShowGlass) {
-        showGlass = doShowGlass;
+    if (_showGlass != doShowGlass) {
+        _showGlass = doShowGlass;
         [self setNeedsDisplay];
     }
 }
 
 - (void)setPeekInset:(UIEdgeInsets)aPeekInset {
-    if (!UIEdgeInsetsEqualToEdgeInsets(peekInset, aPeekInset)) {
-        peekInset = aPeekInset;
-        self.contentView.frame = UIEdgeInsetsInsetRect(self.bounds, self.peekInset);
+    if (!UIEdgeInsetsEqualToEdgeInsets(_peekInset, aPeekInset)) {
+        _peekInset = aPeekInset;
+        self.contentView.frame = UIEdgeInsetsInsetRect(self.bounds, _peekInset);
         [self reloadData];
         [self.contentView setNeedsDisplay];
     }
@@ -214,40 +217,37 @@
 - (void)reloadData
 {
     // empty views
-    currentIndex = 0;
-    itemCount = 0;
+    _selectedItem = 0;
+    _itemCount = 0;
     
-    for (UIView *aView in visibleViews) 
+    for (UIView *aView in self.visibleViews)
         [aView removeFromSuperview];
     
-    for (UIView *aView in recycledViews)
+    for (UIView *aView in self.recycledViews)
         [aView removeFromSuperview];
     
-    visibleViews = [[NSMutableSet alloc] init];
-    recycledViews = [[NSMutableSet alloc] init];
+    self.visibleViews = [[NSMutableSet alloc] init];
+    self.recycledViews = [[NSMutableSet alloc] init];
     
-    if ([dataSource respondsToSelector:@selector(numberOfItemsInPickerView:)]) {
-        itemCount = [dataSource numberOfItemsInPickerView:self];
+    if ([self.dataSource respondsToSelector:@selector(numberOfItemsInPickerView:)]) {
+        self.itemCount = [self.dataSource numberOfItemsInPickerView:self];
     } else {
-        itemCount = 0;
+        self.itemCount = 0;
     }
     
     [self scrollToIndex:0 animated:NO];
     self.contentView.frame = UIEdgeInsetsInsetRect(self.bounds, self.peekInset);
-    self.contentView.contentSize = CGSizeMake(self.contentView.frame.size.width * itemCount, self.contentView.frame.size.height);  
+    self.contentView.contentSize = CGSizeMake(self.contentView.frame.size.width * self.itemCount, self.contentView.frame.size.height);
     [self tileViews];
 }
-
-
-
 
 - (void)determineCurrentItem
 {
     CGFloat delta = self.contentView.contentOffset.x;
     int position = round(delta / self.contentView.frame.size.width);
-    currentIndex = position;
-    if ([delegate respondsToSelector:@selector(pickerView:didSelectItem:)]) {
-        [delegate pickerView:self didSelectItem:currentIndex];
+    self.selectedItem = position;
+    if ([self.delegate respondsToSelector:@selector(pickerView:didSelectItem:)]) {
+        [self.delegate pickerView:self didSelectItem:_selectedItem];
     }
 }
 
@@ -266,19 +266,17 @@
 
 - (UIView *)dequeueRecycledView
 {
-	UIView *aView = [recycledViews anyObject];
+	UIView *aView = [self.recycledViews anyObject];
 	
-    if (aView) 
-        [recycledViews removeObject:aView];
+    if (aView)
+        [self.recycledViews removeObject:aView];
     return aView;
 }
-
-
 
 - (BOOL)isDisplayingViewForIndex:(NSUInteger)index
 {
 	BOOL foundPage = NO;
-    for (UIView *aView in visibleViews) 
+    for (UIView *aView in self.visibleViews)
 	{
         int viewIndex = aView.frame.origin.x / self.contentView.frame.size.width;
         if (viewIndex == index) 
@@ -290,9 +288,6 @@
     return foundPage;
 }
 
-
-
-
 - (void)tileViews
 {
     // Calculate which pages are visible
@@ -301,20 +296,20 @@
     int firstNeededViewIndex = currentViewIndex - 2; 
     int lastNeededViewIndex  = currentViewIndex + 2;
     firstNeededViewIndex = MAX(firstNeededViewIndex, 0);
-    lastNeededViewIndex  = MIN(lastNeededViewIndex, itemCount - 1);
+    lastNeededViewIndex  = MIN(lastNeededViewIndex, self.itemCount - 1);
 	
     // Recycle no-longer-visible pages 
-	for (UIView *aView in visibleViews) 
+	for (UIView *aView in self.visibleViews)
     {
         int viewIndex = aView.frame.origin.x / visibleBounds.size.width - 2;
         if (viewIndex < firstNeededViewIndex || viewIndex > lastNeededViewIndex) 
         {
-            [recycledViews addObject:aView];
+            [self.recycledViews addObject:aView];
             [aView removeFromSuperview];
         }
     }
     
-    [visibleViews minusSet:recycledViews];
+    [self.visibleViews minusSet:self.recycledViews];
     
     // add missing pages
 	for (int index = firstNeededViewIndex; index <= lastNeededViewIndex; index++) 
@@ -334,28 +329,23 @@
             
             [self configureView:label atIndex:index];
             [self.contentView addSubview:label];
-            [visibleViews addObject:label];
+            [self.visibleViews addObject:label];
         }
     }
 }
-
-
-
 
 - (void)configureView:(UIView *)view atIndex:(NSUInteger)index
 {
     UILabel *label = (UILabel *)view;
     
-    if ([dataSource respondsToSelector:@selector(pickerView:titleForItem:)]) {
-        label.text = [dataSource pickerView:self titleForItem:index];
+    if ([self.dataSource respondsToSelector:@selector(pickerView:titleForItem:)]) {
+        label.text = [self.dataSource pickerView:self titleForItem:index];
     }
     
     CGRect frame = label.frame;
     frame.origin.x = self.contentView.frame.size.width * index;
     label.frame = frame;
 }
-
-
 
 
 #pragma mark - UIScrollViewDelegate
