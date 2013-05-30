@@ -28,6 +28,8 @@ Several appearance options are settable via properties:
  * `UIEdgeInsets peekInset` - defines the amount the item to the left and right of the currently selected item "peek" into view. This can be used as an indication to the user that there are other items, if desired. _NOTE_: You most likely want to leave the `top` and `bottom` inset values at 0, and adjust the `left` and `right` values. Larger inset values mean more peek.
 
 
+You can also enable/disable the ability for the user to change the picker via the `enabled` property. The default state is `YES`.
+
 ### Standard Usage
 Create a CPPickerView instance and configure it:
 
