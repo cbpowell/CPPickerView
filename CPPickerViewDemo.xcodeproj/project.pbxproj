@@ -109,8 +109,7 @@
 				EA5C7F8F1516717B0062E922 /* TableViewController.xib */,
 				0A3DA661147E3D9700143ADF /* Supporting Files */,
 			);
-			name = CPPickerViewDemo;
-			path = PickerView;
+			path = CPPickerViewDemo;
 			sourceTree = "<group>";
 		};
 		0A3DA661147E3D9700143ADF /* Supporting Files */ = {
@@ -131,20 +130,20 @@
 				EA6B58B217930C8500455D55 /* CPPickerView.m */,
 				EA5013401516D23C00917CFA /* CPPickerViewCell.h */,
 				EA5013411516D23C00917CFA /* CPPickerViewCell.m */,
-				0A3DA687147E3F7700143ADF /* Assets */,
+				0A3DA687147E3F7700143ADF /* Resources */,
 			);
 			name = CPPickerView;
 			path = PickerView;
 			sourceTree = "<group>";
 		};
-		0A3DA687147E3F7700143ADF /* Assets */ = {
+		0A3DA687147E3F7700143ADF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				EA5C7FAD1516B7BB0062E922 /* shadowOverlay@2x.png */,
 				EA50136A1519878400917CFA /* stretchableGlass@2x.png */,
 				EAD618F71527845800F35E8B /* wheelBackground@2x.png */,
 			);
-			name = Assets;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
