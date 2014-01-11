@@ -82,4 +82,8 @@
 
 - (void)pickerView:(CPPickerView *)pickerView didSelectItem:(NSInteger)item;
 
+@optional
+
+- (void)pickerViewWillBeginChangingItem:(CPPickerView *)pickerView;
+
 @end

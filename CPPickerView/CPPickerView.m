@@ -412,5 +412,12 @@
     [self determineCurrentItem];
 }
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    if ([self.delegate respondsToSelector:@selector(pickerViewWillBeginChangingItem:)]) {
+        [self.delegate pickerViewWillBeginChangingItem:self];
+    }
+}
+
 
 @end
