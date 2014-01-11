@@ -52,12 +52,16 @@
 @property (nonatomic, strong) UIColor *itemColor;
 @property (nonatomic) BOOL showGlass;
 @property (nonatomic) UIEdgeInsets peekInset;
+// Images
+@property (nonatomic, strong) UIImage *backgroundImage;
+@property (nonatomic, strong) UIImage *glassImage;
+@property (nonatomic, strong) UIImage *shadowImage;
 
-
+// Control methods
 - (void)reloadData;
 - (void)selectItemAtIndex:(NSInteger)index animated:(BOOL)animated;
 
-// recycle queue
+// View queue
 - (UIView *)dequeueRecycledView;
 - (BOOL)isDisplayingViewForIndex:(NSUInteger)index;
 

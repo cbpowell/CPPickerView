@@ -35,11 +35,9 @@
 #import "CPPickerView.h"
 
 @interface CPPickerView () <UIScrollViewDelegate>
+
 // Views
 @property (nonatomic, strong) UIScrollView *contentView;
-@property (nonatomic, strong) UIImage *backgroundImage;
-@property (nonatomic, strong) UIImage *glassImage;
-@property (nonatomic, strong) UIImage *shadowImage;
 
 // recycling
 @property (nonatomic, strong) NSMutableSet *recycledViews;
@@ -181,19 +179,25 @@
 - (void)drawRect:(CGRect)rect {
     
     // Draw background
-    [self.backgroundImage drawInRect:self.bounds];
+    if (self.backgroundImage) {
+        [self.backgroundImage drawInRect:self.bounds];
+    }
     
     // Draw super/UIScrollView
     [super drawRect:rect];
     
     // Draw shadow
-    [self.shadowImage drawInRect:self.bounds];
+    if (self.shadowImage) {
+        [self.shadowImage drawInRect:self.bounds];
+    }
     
     // Draw glass
-    if (self.showGlass) {
+    if (self.showGlass && self.glassImage) {
         [self.glassImage drawInRect:CGRectMake(self.frame.size.width / 2 - 30, 0.0, 60, self.frame.size.height)];
     }
 }
+
+#pragma mark - Custom Getters/Setters
 
 - (void)setShowGlass:(BOOL)doShowGlass {
     if (_showGlass != doShowGlass) {
@@ -210,6 +214,38 @@
         [self.contentView setNeedsDisplay];
     }
 }
+
+- (void)setBackgroundImage:(UIImage *)backgroundImage
+{
+    if ([backgroundImage isEqual:_backgroundImage]) {
+        return;
+    }
+    
+    _backgroundImage = backgroundImage;
+    [self setNeedsDisplay];
+}
+
+- (void)setGlassImage:(UIImage *)glassImage
+{
+    if ([glassImage isEqual:_glassImage]) {
+        return;
+    }
+    
+    _glassImage = glassImage;
+    [self setNeedsDisplay];
+}
+
+- (void)setShadowImage:(UIImage *)shadowImage
+{
+    if ([shadowImage isEqual:_shadowImage]) {
+        return;
+    }
+    
+    _shadowImage = shadowImage;
+    [self setNeedsDisplay];
+}
+
+#pragma mark - Touch Handling
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     
