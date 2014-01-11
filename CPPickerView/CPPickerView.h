@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012 Charles Powell
+ * Copyright (c) 2013 Charles Powell
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -45,13 +45,14 @@
 @property (nonatomic, unsafe_unretained) IBOutlet id <CPPickerViewDataSource> dataSource;
 @property (nonatomic, unsafe_unretained) IBOutlet id <CPPickerViewDelegate> delegate;
 // Current status
-@property (nonatomic, unsafe_unretained) int selectedItem;
+@property (nonatomic) NSUInteger selectedItem;
 @property (nonatomic) BOOL enabled;
 // Configuration
 @property (nonatomic, strong) UIFont *itemFont;
 @property (nonatomic, strong) UIColor *itemColor;
 @property (nonatomic) BOOL showGlass;
 @property (nonatomic) UIEdgeInsets peekInset;
+@property (nonatomic) BOOL allowSlowDeceleration;
 // Images
 @property (nonatomic, strong) UIImage *backgroundImage;
 @property (nonatomic, strong) UIImage *glassImage;
@@ -59,7 +60,8 @@
 
 // Control methods
 - (void)reloadData;
-- (void)selectItemAtIndex:(NSInteger)index animated:(BOOL)animated;
+- (void)setSelectedItem:(NSUInteger)selectedItem animated:(BOOL)animated;
+- (void)selectItemAtIndex:(NSInteger)index animated:(BOOL)animated __attribute((deprecated("Use setSelectedItem:animated: method instead")));
 
 // View queue
 - (UIView *)dequeueRecycledView;

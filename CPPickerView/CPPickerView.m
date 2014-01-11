@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012 Charles Powell
+ * Copyright (c) 2013 Charles Powell
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -34,6 +34,8 @@
 
 #import "CPPickerView.h"
 
+#define kCPPickerDecelerationThreshold 2.9f
+
 @interface CPPickerView () <UIScrollViewDelegate>
 
 // Views
@@ -54,50 +56,6 @@
 @end
 
 @implementation CPPickerView
-
-#pragma mark - Custom getters/setters
-
-- (void)setSelectedItem:(int)selectedItem
-{
-    if (selectedItem >= self.itemCount)
-        return;
-    
-    _selectedItem = selectedItem;
-    [self scrollToIndex:_selectedItem animated:NO];
-}
-
-
-
-
-- (void)setItemFont:(UIFont *)itemFont
-{
-    _itemFont = itemFont;
-    
-    for (UILabel *aLabel in self.visibleViews)
-    {
-        aLabel.font = _itemFont;
-    }
-    
-    for (UILabel *aLabel in self.recycledViews)
-    {
-        aLabel.font = _itemFont;
-    }
-}
-
-- (void)setItemColor:(UIColor *)itemColor
-{
-    _itemColor = itemColor;
-    
-    for (UILabel *aLabel in self.visibleViews)
-    {
-        aLabel.textColor = _itemColor;
-    }
-    
-    for (UILabel *aLabel in self.recycledViews)
-    {
-        aLabel.textColor = _itemColor;
-    }
-}
 
 #pragma mark - Initialization
 
@@ -160,6 +118,7 @@
     _itemFont = [UIFont boldSystemFontOfSize:24.0];
     _itemColor = [UIColor blackColor];
     _showGlass = NO;
+    _allowSlowDeceleration = NO;
     _peekInset = UIEdgeInsetsMake(0, 0, 0, 0);
     _selectedItem = 0;
     _itemCount = 0;
@@ -198,6 +157,54 @@
 }
 
 #pragma mark - Custom Getters/Setters
+
+- (void)setSelectedItem:(NSUInteger)selectedItem
+{
+    [self setSelectedItem:selectedItem animated:NO];
+}
+
+- (void)setSelectedItem:(NSUInteger)selectedItem animated:(BOOL)animated
+{
+    if (selectedItem >= self.itemCount || selectedItem == _selectedItem) {
+        return;
+    }
+    
+    _selectedItem = selectedItem;
+    [self scrollToIndex:_selectedItem animated:animated];
+    if ([self.delegate respondsToSelector:@selector(pickerView:didSelectItem:)]) {
+        [self.delegate pickerView:self didSelectItem:_selectedItem];
+    }
+}
+
+- (void)setItemFont:(UIFont *)itemFont
+{
+    _itemFont = itemFont;
+    
+    for (UILabel *aLabel in self.visibleViews)
+    {
+        aLabel.font = _itemFont;
+    }
+    
+    for (UILabel *aLabel in self.recycledViews)
+    {
+        aLabel.font = _itemFont;
+    }
+}
+
+- (void)setItemColor:(UIColor *)itemColor
+{
+    _itemColor = itemColor;
+    
+    for (UILabel *aLabel in self.visibleViews)
+    {
+        aLabel.textColor = _itemColor;
+    }
+    
+    for (UILabel *aLabel in self.recycledViews)
+    {
+        aLabel.textColor = _itemColor;
+    }
+}
 
 - (void)setShowGlass:(BOOL)doShowGlass {
     if (_showGlass != doShowGlass) {
@@ -289,15 +296,15 @@
 - (void)determineCurrentItem
 {
     CGFloat delta = self.contentView.contentOffset.x;
-    int position = round(delta / self.contentView.frame.size.width);
-    self.selectedItem = position;
+    NSUInteger position = round(delta / self.contentView.frame.size.width);
+    _selectedItem = position;
     if ([self.delegate respondsToSelector:@selector(pickerView:didSelectItem:)]) {
         [self.delegate pickerView:self didSelectItem:_selectedItem];
     }
 }
 
 - (void)selectItemAtIndex:(NSInteger)index animated:(BOOL)animated {
-    [self scrollToIndex:index animated:animated];
+    [self setSelectedItem:index animated:animated];
 }
 
 - (void)scrollToIndex:(NSInteger)index animated:(BOOL)animated {
@@ -410,6 +417,23 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     [self determineCurrentItem];
+    
+    if (!self.contentView.pagingEnabled) {
+        [self scrollToIndex:self.selectedItem animated:YES];
+    }
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+{
+    self.contentView.pagingEnabled = YES;
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    if (velocity.x > kCPPickerDecelerationThreshold && self.allowSlowDeceleration) {
+        // Disable paging momentarily to allow slow decel
+        self.contentView.pagingEnabled = NO;
+    }
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
