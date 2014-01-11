@@ -69,34 +69,28 @@
     return _currentIndexPath;
 }
 
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    
+    self.currentIndexPath = nil;
+}
+
 #pragma mark External
 
 - (void)reloadData {
     [self.pickerView reloadData];
 }
 
+- (void)setSelectedItem:(NSUInteger)selectedItem {
+    [self setSelectedItem:selectedItem animated:YES];
+}
+
+- (void)setSelectedItem:(NSUInteger)selectedItem animated:(BOOL)animated {
+    [self.pickerView setSelectedItem:selectedItem animated:animated];
+}
+
 - (void)selectItemAtIndex:(NSInteger)index animated:(BOOL)animated {
-    [self.pickerView selectItemAtIndex:index animated:animated];
-}
-
-- (NSInteger)selectedItem {
-    return [self.pickerView selectedItem];
-}
-
-- (void)setShowGlass:(BOOL)doShowGlass {
-    self.pickerView.showGlass = doShowGlass;
-}
-
-- (BOOL)showGlass {
-    return self.pickerView.showGlass;
-}
-
-- (void)setPeekInset:(UIEdgeInsets)aPeekInset {
-    self.pickerView.peekInset = aPeekInset;
-}
-
-- (UIEdgeInsets)peekInset {
-    return self.pickerView.peekInset;
+    [self.pickerView setSelectedItem:index animated:animated];
 }
 
 #pragma mark CPPickerView Delegate
