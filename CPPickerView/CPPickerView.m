@@ -169,6 +169,15 @@
     _recycledViews = [[NSMutableSet alloc] init];
 }
 
+#pragma mark - View Handling
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    self.contentView.frame = UIEdgeInsetsInsetRect(self.bounds, self.peekInset);
+}
+
 - (void)drawRect:(CGRect)rect {
     
     // Draw background
