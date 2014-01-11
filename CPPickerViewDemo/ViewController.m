@@ -32,6 +32,7 @@
     self.defaultPickerView.backgroundColor = [UIColor whiteColor];
     self.defaultPickerView.dataSource = self;
     self.defaultPickerView.delegate = self;
+    self.defaultPickerView.allowSlowDeceleration = YES;
     [self.defaultPickerView reloadData];
     [self.view addSubview:self.defaultPickerView];
 }
@@ -40,7 +41,7 @@
 
 - (NSInteger)numberOfItemsInPickerView:(CPPickerView *)pickerView
 {
-    return 100;
+    return 200;
 }
 
 

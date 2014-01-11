@@ -14,4 +14,7 @@
 
 @property (strong, nonatomic) NSMutableArray *settingsStorage;
 
+@property (nonatomic, strong) IBOutlet UILabel *sectionOneLabel;
+@property (nonatomic, strong) IBOutlet UILabel *sectionTwoLabel;
+
 @end

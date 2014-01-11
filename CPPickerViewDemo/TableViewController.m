@@ -32,7 +32,12 @@
     [super viewDidLoad];
     
     self.title = @"Table Usage";
-    self.settingsStorage = [NSMutableArray arrayWithObjects:[NSMutableArray arrayWithObject:[NSNumber numberWithInt:0]], [NSMutableArray arrayWithObject:[NSNumber numberWithInt:1]], nil];
+    NSArray *section1 = [NSMutableArray arrayWithObjects:[NSNumber numberWithInteger:0], nil];
+    NSArray *section2 = [NSMutableArray arrayWithObjects:[NSNumber numberWithInteger:1], nil];
+    self.settingsStorage = [NSMutableArray arrayWithObjects:section1, section2, nil];
+    
+    [self setLabelTextForSection:0 forItem:0];
+    [self setLabelTextForSection:1 forItem:1];
 }
 
 - (void)viewDidUnload
@@ -45,6 +50,24 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)setLabelTextForSection:(NSUInteger)section forItem:(NSUInteger)item
+{
+    switch (section) {
+        case 0:
+            // Section 1
+            self.sectionOneLabel.text = [NSString stringWithFormat:@"Section 1: Option %i", item + 1];
+            break;
+            
+        case 1:
+            // Section 2
+            self.sectionTwoLabel.text = [NSString stringWithFormat:@"Section 2: %i", item + 1];
+            break;
+            
+        default:
+            break;
+    }
 }
 
 #pragma mark - Table view data source
@@ -90,7 +113,10 @@
         cell.peekInset = UIEdgeInsetsMake(0, 35, 0, 35);
     }
     
-    [cell selectItemAtIndex:[[[self.settingsStorage objectAtIndex:section] objectAtIndex:row] intValue] animated:NO];
+    NSArray *sectionStorage = [self.settingsStorage objectAtIndex:section];
+    NSUInteger setting = [[sectionStorage objectAtIndex:row] unsignedIntegerValue];
+    
+    [cell setSelectedItem:setting animated:NO];
     
     return cell;
 }
@@ -99,7 +125,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Do Nothing
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - CPPickerViewCell DataSource
@@ -132,6 +158,8 @@
 
 - (void)pickerViewAtIndexPath:(NSIndexPath *)pickerPath didSelectItem:(NSInteger)item {
     [[self.settingsStorage objectAtIndex:pickerPath.section] replaceObjectAtIndex:pickerPath.row withObject:[NSNumber numberWithInt:item]];
+    
+    [self setLabelTextForSection:pickerPath.section forItem:item];
 }
 
 
