@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "CPPickerView"
-  s.version      = "1.0.1"
+  s.version      = "1.2.0"
   s.summary      = "A custom, configurable, horizontal version of UIPickerView built to live in a UITableViewCell."
   s.homepage     = "https://github.com/cbpowell/CPPickerView"
   s.license      = { :type => 'MIT', :file => 'LICENSE' }

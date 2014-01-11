@@ -16,6 +16,7 @@
 		EA4BF4731881BA71002CB644 /* shadowOverlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EA4BF4701881BA71002CB644 /* shadowOverlay@2x.png */; };
 		EA4BF4741881BA71002CB644 /* stretchableGlass@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EA4BF4711881BA71002CB644 /* stretchableGlass@2x.png */; };
 		EA4BF4751881BA71002CB644 /* wheelBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EA4BF4721881BA71002CB644 /* wheelBackground@2x.png */; };
+		EA4BF47818820BB0002CB644 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EA4BF47718820BB0002CB644 /* Default-568h@2x.png */; };
 		EA5013431516D23C00917CFA /* CPPickerViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5013411516D23C00917CFA /* CPPickerViewCell.m */; };
 		EA58F3411881B91E00204A7E /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A3DA66F147E3D9700143ADF /* ViewController.xib */; };
 		EA58F3421881B91E00204A7E /* TableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA5C7F8F1516717B0062E922 /* TableViewController.xib */; };
@@ -43,6 +44,7 @@
 		EA4BF4701881BA71002CB644 /* shadowOverlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shadowOverlay@2x.png"; path = "Resources/shadowOverlay@2x.png"; sourceTree = SOURCE_ROOT; };
 		EA4BF4711881BA71002CB644 /* stretchableGlass@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "stretchableGlass@2x.png"; path = "Resources/stretchableGlass@2x.png"; sourceTree = SOURCE_ROOT; };
 		EA4BF4721881BA71002CB644 /* wheelBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wheelBackground@2x.png"; path = "Resources/wheelBackground@2x.png"; sourceTree = SOURCE_ROOT; };
+		EA4BF47718820BB0002CB644 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		EA50133E1516D23C00917CFA /* CPPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPPickerView.h; path = CPPickerView/CPPickerView.h; sourceTree = SOURCE_ROOT; };
 		EA5013401516D23C00917CFA /* CPPickerViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPPickerViewCell.h; path = CPPickerView/CPPickerViewCell.h; sourceTree = SOURCE_ROOT; };
 		EA5013411516D23C00917CFA /* CPPickerViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CPPickerViewCell.m; path = CPPickerView/CPPickerViewCell.m; sourceTree = SOURCE_ROOT; };
@@ -70,6 +72,7 @@
 		0A3DA64B147E3D9700143ADF = {
 			isa = PBXGroup;
 			children = (
+				EA4BF47718820BB0002CB644 /* Default-568h@2x.png */,
 				0A3DA677147E3DAB00143ADF /* CPPickerView */,
 				0A3DA660147E3D9700143ADF /* CPPickerViewDemo */,
 				0A3DA659147E3D9700143ADF /* Frameworks */,
@@ -201,6 +204,7 @@
 				EA4BF4751881BA71002CB644 /* wheelBackground@2x.png in Resources */,
 				EA4BF4731881BA71002CB644 /* shadowOverlay@2x.png in Resources */,
 				EA58F3421881B91E00204A7E /* TableViewController.xib in Resources */,
+				EA4BF47818820BB0002CB644 /* Default-568h@2x.png in Resources */,
 				EA58F3431881B91E00204A7E /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
