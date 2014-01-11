@@ -149,6 +149,22 @@
     return self.pickerView.peekInset;
 }
 
+- (void)setItemColor:(UIColor *)itemColor {
+    self.pickerView.itemColor = itemColor;
+}
+
+- (UIColor *)itemColor {
+    return self.pickerView.itemColor;
+}
+
+- (void)setItemFont:(UIFont *)itemFont {
+    self.pickerView.itemFont = itemFont;
+}
+
+- (UIFont *)itemFont {
+    return self.pickerView.itemFont;
+}
+
 - (void)setAllowSlowDeceleration:(BOOL)allowSlowDeceleration {
     self.pickerView.allowSlowDeceleration = allowSlowDeceleration;
 }

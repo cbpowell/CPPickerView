@@ -39,11 +39,13 @@
 
 @property (nonatomic, unsafe_unretained) id <CPPickerViewCellDataSource> dataSource;
 @property (nonatomic, unsafe_unretained) id <CPPickerViewCellDelegate> delegate;
-@property (nonatomic, copy) NSIndexPath *currentIndexPath;
 
 @property (nonatomic, readonly) CPPickerView *pickerView;
-
 @property (nonatomic, readonly) NSUInteger selectedItem;
+@property (nonatomic, copy) NSIndexPath *currentIndexPath;
+
+@property (nonatomic, strong) UIFont *itemFont;
+@property (nonatomic, strong) UIColor *itemColor;
 @property (nonatomic) BOOL showGlass;
 @property (nonatomic) UIEdgeInsets peekInset;
 @property (nonatomic) BOOL allowSlowDeceleration;
