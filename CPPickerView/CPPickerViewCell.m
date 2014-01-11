@@ -33,18 +33,13 @@
 
 @interface CPPickerViewCell ()
 
-@property (nonatomic, unsafe_unretained) CPPickerView *pickerView;
+@property (nonatomic, readwrite, unsafe_unretained) CPPickerView *pickerView;
 
 @end
 
 
 
 @implementation CPPickerViewCell
-
-@synthesize pickerView;
-@synthesize dataSource, delegate;
-@synthesize selectedItem, showGlass, peekInset;
-@synthesize currentIndexPath = _currentIndexPath;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -112,6 +107,12 @@
     }
 }
 
+- (void)pickerViewWillBeginChangingItem:(CPPickerView *)pickerView {
+    if ([self.delegate respondsToSelector:@selector(pickerViewAtIndexPathWillBeginChangingItem:)]) {
+        [self.delegate pickerViewAtIndexPathWillBeginChangingItem:self.currentIndexPath];
+    }
+}
+
 #pragma mark CPPickerView Datasource
 
 - (NSInteger)numberOfItemsInPickerView:(CPPickerView *)pickerView {
@@ -133,5 +134,33 @@
 }
 
 #pragma mark Custom getters/setters
+
+- (NSUInteger)selectedItem {
+    return [self.pickerView selectedItem];
+}
+
+- (void)setShowGlass:(BOOL)doShowGlass {
+    self.pickerView.showGlass = doShowGlass;
+}
+
+- (BOOL)showGlass {
+    return self.pickerView.showGlass;
+}
+
+- (void)setPeekInset:(UIEdgeInsets)aPeekInset {
+    self.pickerView.peekInset = aPeekInset;
+}
+
+- (UIEdgeInsets)peekInset {
+    return self.pickerView.peekInset;
+}
+
+- (void)setAllowSlowDeceleration:(BOOL)allowSlowDeceleration {
+    self.pickerView.allowSlowDeceleration = allowSlowDeceleration;
+}
+
+- (BOOL)allowSlowDeceleration {
+    return self.pickerView.allowSlowDeceleration;
+}
 
 @end

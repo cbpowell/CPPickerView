@@ -41,13 +41,19 @@
 @property (nonatomic, unsafe_unretained) id <CPPickerViewCellDelegate> delegate;
 @property (nonatomic, copy) NSIndexPath *currentIndexPath;
 
-@property (nonatomic, readonly) NSInteger selectedItem;
+@property (nonatomic, readonly) CPPickerView *pickerView;
+
+@property (nonatomic, readonly) NSUInteger selectedItem;
 @property (nonatomic) BOOL showGlass;
 @property (nonatomic) UIEdgeInsets peekInset;
+@property (nonatomic) BOOL allowSlowDeceleration;
 
 // Handling
 - (void)reloadData;
-- (void)selectItemAtIndex:(NSInteger)index animated:(BOOL)animated;
+- (void)setSelectedItem:(NSUInteger)selectedItem;
+- (void)setSelectedItem:(NSUInteger)selectedItem animated:(BOOL)animated;
+
+- (void)selectItemAtIndex:(NSInteger)index animated:(BOOL)animated __attribute((deprecated("Use setSelectedItem:animated: method instead")));
 
 @end
 
@@ -63,5 +69,9 @@
 @protocol CPPickerViewCellDelegate <NSObject>
 
 - (void)pickerViewAtIndexPath:(NSIndexPath *)pickerPath didSelectItem:(NSInteger)item;
+
+@optional
+
+- (void)pickerViewAtIndexPathWillBeginChangingItem:(NSIndexPath *)pickerPath;
 
 @end
