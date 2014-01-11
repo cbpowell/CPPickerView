@@ -10,19 +10,19 @@
 		0A3DA65B147E3D9700143ADF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3DA65A147E3D9700143ADF /* UIKit.framework */; };
 		0A3DA65D147E3D9700143ADF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3DA65C147E3D9700143ADF /* Foundation.framework */; };
 		0A3DA65F147E3D9700143ADF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3DA65E147E3D9700143ADF /* CoreGraphics.framework */; };
-		0A3DA665147E3D9700143ADF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0A3DA663147E3D9700143ADF /* InfoPlist.strings */; };
 		0A3DA66B147E3D9700143ADF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DA66A147E3D9700143ADF /* AppDelegate.m */; };
 		0A3DA66E147E3D9700143ADF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DA66D147E3D9700143ADF /* ViewController.m */; };
-		0A3DA671147E3D9700143ADF /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A3DA66F147E3D9700143ADF /* ViewController.xib */; };
 		0A3DA68D147E53B700143ADF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3DA68C147E53B700143ADF /* QuartzCore.framework */; };
+		EA4BF4731881BA71002CB644 /* shadowOverlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EA4BF4701881BA71002CB644 /* shadowOverlay@2x.png */; };
+		EA4BF4741881BA71002CB644 /* stretchableGlass@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EA4BF4711881BA71002CB644 /* stretchableGlass@2x.png */; };
+		EA4BF4751881BA71002CB644 /* wheelBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EA4BF4721881BA71002CB644 /* wheelBackground@2x.png */; };
 		EA5013431516D23C00917CFA /* CPPickerViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5013411516D23C00917CFA /* CPPickerViewCell.m */; };
-		EA50136B1519878400917CFA /* stretchableGlass@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EA50136A1519878400917CFA /* stretchableGlass@2x.png */; };
+		EA58F3411881B91E00204A7E /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A3DA66F147E3D9700143ADF /* ViewController.xib */; };
+		EA58F3421881B91E00204A7E /* TableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA5C7F8F1516717B0062E922 /* TableViewController.xib */; };
+		EA58F3431881B91E00204A7E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0A3DA663147E3D9700143ADF /* InfoPlist.strings */; };
 		EA5C7F901516717B0062E922 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5C7F8E1516717B0062E922 /* TableViewController.m */; };
-		EA5C7F911516717B0062E922 /* TableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA5C7F8F1516717B0062E922 /* TableViewController.xib */; };
-		EA5C7FAE1516B7BB0062E922 /* shadowOverlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EA5C7FAD1516B7BB0062E922 /* shadowOverlay@2x.png */; };
 		EA6B58B31793166400455D55 /* CPPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EA6B58B217930C8500455D55 /* CPPickerView.m */; };
 		EA6B58B41793168E00455D55 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DA666147E3D9700143ADF /* main.m */; };
-		EAD618F81527845800F35E8B /* wheelBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EAD618F71527845800F35E8B /* wheelBackground@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,16 +40,16 @@
 		0A3DA66D147E3D9700143ADF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = ../CPPickerViewDemo/ViewController.m; sourceTree = "<group>"; };
 		0A3DA670147E3D9700143ADF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
 		0A3DA68C147E53B700143ADF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		EA4BF4701881BA71002CB644 /* shadowOverlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shadowOverlay@2x.png"; path = "Resources/shadowOverlay@2x.png"; sourceTree = SOURCE_ROOT; };
+		EA4BF4711881BA71002CB644 /* stretchableGlass@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "stretchableGlass@2x.png"; path = "Resources/stretchableGlass@2x.png"; sourceTree = SOURCE_ROOT; };
+		EA4BF4721881BA71002CB644 /* wheelBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wheelBackground@2x.png"; path = "Resources/wheelBackground@2x.png"; sourceTree = SOURCE_ROOT; };
 		EA50133E1516D23C00917CFA /* CPPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPPickerView.h; path = CPPickerView/CPPickerView.h; sourceTree = SOURCE_ROOT; };
 		EA5013401516D23C00917CFA /* CPPickerViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPPickerViewCell.h; path = CPPickerView/CPPickerViewCell.h; sourceTree = SOURCE_ROOT; };
 		EA5013411516D23C00917CFA /* CPPickerViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CPPickerViewCell.m; path = CPPickerView/CPPickerViewCell.m; sourceTree = SOURCE_ROOT; };
-		EA50136A1519878400917CFA /* stretchableGlass@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "stretchableGlass@2x.png"; path = "../Resources/stretchableGlass@2x.png"; sourceTree = "<group>"; };
 		EA5C7F8D1516717B0062E922 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableViewController.h; path = ../CPPickerViewDemo/TableViewController.h; sourceTree = "<group>"; };
 		EA5C7F8E1516717B0062E922 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableViewController.m; path = ../CPPickerViewDemo/TableViewController.m; sourceTree = "<group>"; };
 		EA5C7F8F1516717B0062E922 /* TableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TableViewController.xib; path = ../CPPickerViewDemo/TableViewController.xib; sourceTree = "<group>"; };
-		EA5C7FAD1516B7BB0062E922 /* shadowOverlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shadowOverlay@2x.png"; path = "../Resources/shadowOverlay@2x.png"; sourceTree = "<group>"; };
 		EA6B58B217930C8500455D55 /* CPPickerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CPPickerView.m; path = CPPickerView/CPPickerView.m; sourceTree = SOURCE_ROOT; };
-		EAD618F71527845800F35E8B /* wheelBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wheelBackground@2x.png"; path = "../Resources/wheelBackground@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,20 +130,20 @@
 				EA6B58B217930C8500455D55 /* CPPickerView.m */,
 				EA5013401516D23C00917CFA /* CPPickerViewCell.h */,
 				EA5013411516D23C00917CFA /* CPPickerViewCell.m */,
-				0A3DA687147E3F7700143ADF /* Resources */,
+				EA4BF4761881BA78002CB644 /* Resources */,
 			);
 			name = CPPickerView;
 			path = PickerView;
 			sourceTree = "<group>";
 		};
-		0A3DA687147E3F7700143ADF /* Resources */ = {
+		EA4BF4761881BA78002CB644 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				EA5C7FAD1516B7BB0062E922 /* shadowOverlay@2x.png */,
-				EA50136A1519878400917CFA /* stretchableGlass@2x.png */,
-				EAD618F71527845800F35E8B /* wheelBackground@2x.png */,
+				EA4BF4701881BA71002CB644 /* shadowOverlay@2x.png */,
+				EA4BF4711881BA71002CB644 /* stretchableGlass@2x.png */,
+				EA4BF4721881BA71002CB644 /* wheelBackground@2x.png */,
 			);
-			path = Resources;
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -155,7 +155,7 @@
 			buildPhases = (
 				0A3DA652147E3D9700143ADF /* Sources */,
 				0A3DA653147E3D9700143ADF /* Frameworks */,
-				0A3DA654147E3D9700143ADF /* Resources */,
+				EA58F33D1881B90300204A7E /* Resources */,
 			);
 			buildRules = (
 			);
@@ -192,16 +192,16 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		0A3DA654147E3D9700143ADF /* Resources */ = {
+		EA58F33D1881B90300204A7E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A3DA665147E3D9700143ADF /* InfoPlist.strings in Resources */,
-				0A3DA671147E3D9700143ADF /* ViewController.xib in Resources */,
-				EA5C7F911516717B0062E922 /* TableViewController.xib in Resources */,
-				EA5C7FAE1516B7BB0062E922 /* shadowOverlay@2x.png in Resources */,
-				EA50136B1519878400917CFA /* stretchableGlass@2x.png in Resources */,
-				EAD618F81527845800F35E8B /* wheelBackground@2x.png in Resources */,
+				EA58F3411881B91E00204A7E /* ViewController.xib in Resources */,
+				EA4BF4741881BA71002CB644 /* stretchableGlass@2x.png in Resources */,
+				EA4BF4751881BA71002CB644 /* wheelBackground@2x.png in Resources */,
+				EA4BF4731881BA71002CB644 /* shadowOverlay@2x.png in Resources */,
+				EA58F3421881B91E00204A7E /* TableViewController.xib in Resources */,
+				EA58F3431881B91E00204A7E /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
