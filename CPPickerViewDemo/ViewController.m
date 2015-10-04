@@ -52,7 +52,7 @@
 -(UIView*) pickerView:(CPPickerView *)pickerView viewForItem:(NSInteger)item reusingView:(UIView *)reusableView{
     UILabel* view = (UILabel*)reusableView;
     if (!view){
-        view = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+        view = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 80)];
         view.textAlignment = NSTextAlignmentCenter;
     }
     view.backgroundColor = [colors objectAtIndex:item];
@@ -63,7 +63,6 @@
 
 - (NSString *)pickerView:(CPPickerView *)pickerView titleForItem:(NSInteger)item
 {
-    NSLog(@"TITLE");
     return [NSString stringWithFormat:@"%i", item + 1];
 }
 

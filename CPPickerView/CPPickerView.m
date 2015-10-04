@@ -35,6 +35,7 @@
 #import "CPPickerView.h"
 
 #define kCPPickerDecelerationThreshold 2.9f
+#define kCPPickerCustomViewMaxSizeFactor 0.8f
 
 @interface CPPickerView () <UIScrollViewDelegate>
 
@@ -379,7 +380,12 @@
             UIView* view = [self dequeueRecycledView];
             if ([self.dataSource respondsToSelector:@selector(pickerView:viewForItem:reusingView:)]){
                 view = [self.dataSource pickerView:self viewForItem:index reusingView:view];
-                view.frame = CGRectMake(self.contentView.frame.size.width*index + (self.frame.size.width-view.frame.size.width)/2, (self.frame.size.height-view.frame.size.height)/2, view.frame.size.width, view.frame.size.height);
+                CGFloat width = MIN(view.frame.size.width, self.frame.size.width * kCPPickerCustomViewMaxSizeFactor);
+                CGFloat height = MIN(view.frame.size.height, self.frame.size.height * kCPPickerCustomViewMaxSizeFactor);
+                CGFloat centeredX = (self.frame.size.width - width)/2;
+                CGFloat centeredY = (self.frame.size.height - height)/2;
+                CGFloat shiftX = self.contentView.frame.size.width * index;
+                view.frame = CGRectMake(centeredX + shiftX, centeredY, width, height);
             }
             else{
                 UILabel *label = (UILabel*)view;
