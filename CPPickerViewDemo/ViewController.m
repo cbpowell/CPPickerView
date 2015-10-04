@@ -8,7 +8,9 @@
 
 #import "ViewController.h"
 
-@implementation ViewController
+@implementation ViewController{
+    NSArray* colors;
+}
 
 #pragma mark - Synthesizatoin
 
@@ -28,6 +30,8 @@
 	
     self.daysData = [[NSArray alloc] initWithObjects:@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday", nil];
     
+    colors = @[[UIColor redColor], [UIColor greenColor], [UIColor grayColor], [UIColor yellowColor], [UIColor magentaColor], [UIColor orangeColor]];
+    
     self.defaultPickerView = [[CPPickerView alloc] initWithFrame:CGRectMake(85, 30.0, 150, 40)];
     self.defaultPickerView.backgroundColor = [UIColor whiteColor];
     self.defaultPickerView.dataSource = self;
@@ -41,14 +45,25 @@
 
 - (NSInteger)numberOfItemsInPickerView:(CPPickerView *)pickerView
 {
-    return 200;
+    return colors.count;
 }
 
 
+-(UIView*) pickerView:(CPPickerView *)pickerView viewForItem:(NSInteger)item reusingView:(UIView *)reusableView{
+    UILabel* view = (UILabel*)reusableView;
+    if (!view){
+        view = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+        view.textAlignment = NSTextAlignmentCenter;
+    }
+    view.backgroundColor = [colors objectAtIndex:item];
+    view.text = [self pickerView:pickerView titleForItem:item];
 
+    return view;
+}
 
 - (NSString *)pickerView:(CPPickerView *)pickerView titleForItem:(NSInteger)item
 {
+    NSLog(@"TITLE");
     return [NSString stringWithFormat:@"%i", item + 1];
 }
 
@@ -60,6 +75,7 @@
 - (void)pickerView:(CPPickerView *)pickerView didSelectItem:(NSInteger)item
 {
     self.numberLabel.text = [NSString stringWithFormat:@"%i", item + 1];
+    self.numberLabel.textColor = [colors objectAtIndex:item];
 }
 
 

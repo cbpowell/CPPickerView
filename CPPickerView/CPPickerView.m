@@ -375,20 +375,28 @@
 	{
         if (![self isDisplayingViewForIndex:index]) 
 		{
-            UILabel *label = (UILabel *)[self dequeueRecycledView];
-            
-			if (label == nil)
-            {
-				label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height)];
-                label.backgroundColor = [UIColor clearColor];
-                label.font = self.itemFont;
-                label.textColor = self.itemColor;
-                label.textAlignment = NSTextAlignmentCenter;
+         
+            UIView* view = [self dequeueRecycledView];
+            if ([self.dataSource respondsToSelector:@selector(pickerView:viewForItem:reusingView:)]){
+                view = [self.dataSource pickerView:self viewForItem:index reusingView:view];
+                view.frame = CGRectMake(self.contentView.frame.size.width*index + (self.frame.size.width-view.frame.size.width)/2, (self.frame.size.height-view.frame.size.height)/2, view.frame.size.width, view.frame.size.height);
             }
+            else{
+                UILabel *label = (UILabel*)view;
+                if (label == nil)
+                {
+                    label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height)];
+                    label.backgroundColor = [UIColor clearColor];
+                    label.font = self.itemFont;
+                    label.textColor = self.itemColor;
+                    label.textAlignment = NSTextAlignmentCenter;
+                    view = label;
+                }
             
-            [self configureView:label atIndex:index];
-            [self.contentView addSubview:label];
-            [self.visibleViews addObject:label];
+                [self configureView:label atIndex:index];
+            }
+            [self.contentView addSubview:view];
+            [self.visibleViews addObject:view];
         }
     }
 }
