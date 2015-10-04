@@ -75,7 +75,7 @@
 
 - (NSInteger)numberOfItemsInPickerView:(CPPickerView *)pickerView;
 - (NSString *)pickerView:(CPPickerView *)pickerView titleForItem:(NSInteger)item;
-
+- (UIView*) pickerView:(CPPickerView*)pickerView viewForItem:(NSInteger)item reusingView:(UIView*)reusableView;
 @end
 
 
